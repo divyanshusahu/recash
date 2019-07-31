@@ -1,14 +1,16 @@
 import React from 'react';
+
 import './assets/css/App.css';
-import SignUp from './components/SignUp';
-import Header from './components/Header';
-import Footer from './components/Footer';
+
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import Landing from './components/Landing';
 
 function App() {
   return (
     <div className="wrapper">
-      <SignUp />
       <Header />
+      <Landing />
       <Footer />
     </div>
   );
