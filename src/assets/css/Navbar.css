@@ -1,0 +1,13 @@
+.navbar_components {
+  font-weight: 500;
+}
+
+.navbar-container-width {
+  padding: 0 5rem;
+  height: 100%;
+}
+
+nav ul a:hover {
+  border-bottom: 1px solid blue;
+  background-color: initial;
+}

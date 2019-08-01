@@ -1,0 +1,16 @@
+#landing {
+  margin-top: 15rem;
+}
+
+.baricon {
+  display: inline-block;
+  padding: 6px;
+  border-radius: 100%;
+}
+
+.line_progress {
+  display: inline-block;
+  width:40%;
+  height: 6px;
+  border-top: 1px solid black;
+}
