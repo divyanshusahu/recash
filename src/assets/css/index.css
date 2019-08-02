@@ -8,3 +8,8 @@ html, body {
 
   min-width: 100%;
 }
+
+/* CSS Reset */
+p {
+  margin: 0;
+}

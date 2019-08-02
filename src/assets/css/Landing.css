@@ -1,5 +1,5 @@
 #landing {
-  margin-top: 15rem;
+  margin-top: 10em;
 }
 
 .baricon {
@@ -13,4 +13,22 @@
   width:40%;
   height: 6px;
   border-top: 1px solid black;
+}
+
+.sell_phone_heading p {
+  font-size: 2.5em;
+  font-weight: 750;
+  margin: 50px 0;
+}
+
+.gridlist_root {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  overflow: hidden;
+}
+
+.gridlist {
+  width: 100%;
+  height: 312px;
 }
