@@ -12,19 +12,34 @@
   display: inline-block;
   width:40%;
   height: 6px;
-  border-top: 1px solid black;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  position: relative;
+}
+
+#sell_progress_bar {
+  height: 100px;
+}
+
+#progress_1:before {
+  content: '';
+  position: absolute;
+  left:0%;
+  top: -1px;
+  width: var(--sell-progress);
+  border-top: 1px solid #ff9980;
+  z-index: 9;
+  transition: all 0.5s linear;
 }
 
 .sell_phone_heading p {
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: 750;
-  margin: 50px 0;
 }
 
 .gridlist_root {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
   overflow: hidden;
 }
 
