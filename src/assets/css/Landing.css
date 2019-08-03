@@ -4,20 +4,43 @@
 
 .baricon {
   display: inline-block;
-  padding: 6px;
+  width: 12px;
+  height: 12px;
   border-radius: 100%;
+}
+
+.baricon.active {
+  
 }
 
 .line_progress {
   display: inline-block;
-  width: 40%;
+  width: calc((100% - 36px) / 2);
   height: 6px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
 #sell_progress_bar {
+  height: 50px;
+  width: 80%;
+  margin: auto;
+}
+
+.progressbar_info {
+  width: 100%;
   height: 100px;
+  padding: 0 6px;
+}
+
+.progressbar_info span {
+  display: inline-block;
+  width: 20%;
+  text-align: center;
+}
+
+.progressbar_info span span {
+  width: 100%;
 }
 
 #progress_1:before {

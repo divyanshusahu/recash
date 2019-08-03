@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 
 import "../assets/css/Landing.css";
 import mobiles from "../data/mobile_list";
+
 class Landing extends Component {
   constructor() {
     super();
@@ -18,18 +19,30 @@ class Landing extends Component {
       overall_condition: "",
       display_condition: "",
       old_device: "",
-      other_issue: "",
-      original_accesories_available: "",
+      other_issue: [],
+      original_accesories_available: [],
       mobile_number: ""
     };
 
-    this.gd1_click = this.gd1_click.bind(this);
+    this.gd_click = this.gd_click.bind(this);
+    this.gd_mulClick = this.gd_mulClick.bind(this);
   }
 
-  gd1_click() {
+  gd_click(key, id) {
     this.setState(prevState => {
       let newState = prevState;
-      newState.brand = "id";
+      newState[key] = id;
+      console.log(newState);
+      this.slider.slickNext();
+      return newState;
+    });
+  }
+
+  gd_mulClick(key, id) {
+    this.setState(prevState => {
+      let newState = prevState;
+      newState[key].push(id);
+      console.log(newState);
       return newState;
     });
   }
@@ -38,7 +51,7 @@ class Landing extends Component {
     const slider_settings = {
       dots: true,
       infinite: false,
-      speed: 500,
+      speed: 1000,
       slidesToShow: 1,
       slidesToScroll: 1,
       arrows: false
@@ -49,7 +62,7 @@ class Landing extends Component {
         key={item.brand}
         cols={1}
         style={{ cursor: "pointer" }}
-        onClick={this.gd1_click}
+        onClick={() => this.gd_click("brand", item.brand)}
       >
         <img src={item.img} alt={item.brand} />
       </GridListTile>
@@ -82,15 +95,43 @@ class Landing extends Component {
     const gadget_details_3 = (
       <div id="gadget_details_3">
         <div className="sell_phone_heading">
-          <p>Select Varient</p>
+          <p>Select Variant</p>
         </div>
         <div id="selection3" className="selection">
           <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">16 GB</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("variant", "16gb")}
+              >
+                16 GB
+              </Button>
             </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">64 GB</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("variant", "32gb")}
+              >
+                32 GB
+              </Button>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("variant", "64gb")}
+              >
+                64 GB
+              </Button>
+            </div>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("variant", "128gb")}
+              >
+                128 GB
+              </Button>
             </div>
           </div>
         </div>
@@ -104,19 +145,39 @@ class Landing extends Component {
         </div>
         <div id="selection4" className="selection">
           <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">Excellent</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("overall_condition", "excellent")}
+              >
+                Excellent
+              </Button>
             </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">Very Good</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("overall_condition", "very_good")}
+              >
+                Very Good
+              </Button>
             </div>
           </div>
           <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">Good</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("overall_condition", "good")}
+              >
+                Good
+              </Button>
             </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">Fair</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("overall_condition", "fair")}
+              >
+                Fair
+              </Button>
             </div>
           </div>
         </div>
@@ -141,19 +202,39 @@ class Landing extends Component {
         </div>
         <div id="selection6" className="selection">
           <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">Below 3 months</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("old_device", "b3")}
+              >
+                Below 3 months
+              </Button>
             </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">3 months - 6 months</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("old_device", "b3t6")}
+              >
+                3 months - 6 months
+              </Button>
             </div>
           </div>
           <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">6 months - 11 months</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("old_device", "b6t11")}
+              >
+                6 months - 11 months
+              </Button>
             </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">Above 11 months</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_click("old_device", "m11")}
+              >
+                Above 11 months
+              </Button>
             </div>
           </div>
           <div className="sell_phone_heading" style={{ marginTop: "50px" }}>
@@ -173,35 +254,85 @@ class Landing extends Component {
         </div>
         <div id="selection7" className="selection">
           <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">Headphone Port Issue</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  this.gd_mulClick("other_issue", "headphone_port_issue")
+                }
+              >
+                Headphone Port Issue
+              </Button>
             </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">Back Camera Issue</Button>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">Battery Issue</Button>
-            </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">Button Issue</Button>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">Wifi/Bluetooth Issue</Button>
-            </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">Charging Issue</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  this.gd_mulClick("other_issue", "back_camera_issue")
+                }
+              >
+                Back Camera Issue
+              </Button>
             </div>
           </div>
           <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">Any Sensor Issue</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_mulClick("other_issue", "battery_issue")}
+              >
+                Battery Issue
+              </Button>
             </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">Front Camera Issue</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_mulClick("other_issue", "button_issue")}
+              >
+                Button Issue
+              </Button>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  this.gd_mulClick("other_issue", "wireless_issue")
+                }
+              >
+                Wifi/Bluetooth Issue
+              </Button>
+            </div>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  this.gd_mulClick("other_issue", "charging_issue")
+                }
+              >
+                Charging Issue
+              </Button>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() => this.gd_mulClick("other_issue", "sensors_issue")}
+              >
+                Any Sensor Issue
+              </Button>
+            </div>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  this.gd_mulClick("other_issue", "front_camera_issue")
+                }
+              >
+                Front Camera Issue
+              </Button>
             </div>
           </div>
           <div className="row">
@@ -210,6 +341,7 @@ class Landing extends Component {
                 variant="contained"
                 size="large"
                 className="orange white-text"
+                onClick={() => this.slider.slickNext()}
               >
                 Next
               </Button>
@@ -226,19 +358,47 @@ class Landing extends Component {
         </div>
         <div id="selection8" className="selection">
           <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">Charger</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  this.gd_mulClick("original_accesories_available", "charger")
+                }
+              >
+                Charger
+              </Button>
             </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">Earphones</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  this.gd_mulClick("original_accesories_available", "earphone")
+                }
+              >
+                Earphones
+              </Button>
             </div>
           </div>
           <div className="row">
-            <div className="col s6 m3">
-              <Button variant="outlined">Valid Bill</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  this.gd_mulClick("original_accesories_available", "bill")
+                }
+              >
+                Valid Bill
+              </Button>
             </div>
-            <div className="col s6 m3">
-              <Button variant="outlined">Box</Button>
+            <div className="col s6 m4">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  this.gd_mulClick("original_accesories_available", "box")
+                }
+              >
+                Box
+              </Button>
             </div>
           </div>
           <div className="row">
@@ -269,37 +429,55 @@ class Landing extends Component {
       <div id="landing">
         <section>
           <div className="container">
-            <div>
-              <div id="sell_progress_bar" className="center">
-                <span className="baricon orange" />
-                <span
-                  id="progress_1"
-                  className="line_progress"
-                  style={{ "--sell-progress": "10%" }}
-                />
-                <span className="baricon orange" />
-                <span id="progress_2" className="line_progress" />
-                <span className="baricon orange" />
-              </div>
+            <div className="row">
+              <div className="col s12 m8">
+                <div id="sell_progress_bar">
+                  <span className="baricon orange active" />
+                  <span
+                    id="progress_1"
+                    className="line_progress"
+                    style={{ "--sell-progress": "10%" }}
+                  />
+                  <span className="baricon orange" />
+                  <span id="progress_2" className="line_progress" />
+                  <span className="baricon orange" />
+                </div>
 
-              <div id="sell_phone">
-                <Slider {...slider_settings}>
-                  {gadget_details_1}
-                  {gadget_details_2}
-                  {gadget_details_3}
-                  {gadget_details_4}
-                  {gadget_details_5}
-                  {gadget_details_6}
-                  {gadget_details_7}
-                  {gadget_details_8}
-                  <div id="book_appointment">
-                    <p>Book appoinment</p>
-                  </div>
-                  <div id="sell_phone">
-                    <p>Sell Phone</p>
-                  </div>
-                </Slider>
+                <div className="progressbar_info">
+                  <span>
+                    <span>01</span>
+                    <span>Gadget Details</span>
+                  </span>
+                  <span style={{ marginLeft: "20%" }}>
+                    <span>02</span>
+                    <span>Book Appointment</span>
+                  </span>
+                  <span style={{ marginLeft: "20%" }}>
+                    <span>03</span>
+                    <span>Sell Phone</span>
+                  </span>
+                </div>
+
+                <div id="sell_phone">
+                  <Slider ref={c => (this.slider = c)} {...slider_settings}>
+                    {gadget_details_1}
+                    {gadget_details_2}
+                    {gadget_details_3}
+                    {gadget_details_4}
+                    {gadget_details_5}
+                    {gadget_details_6}
+                    {gadget_details_7}
+                    {gadget_details_8}
+                    <div id="book_appointment">
+                      <p>Book appoinment</p>
+                    </div>
+                    <div id="sell_phone">
+                      <p>Sell Phone</p>
+                    </div>
+                  </Slider>
+                </div>
               </div>
+              <div className="col s12 m4 hide-on-small-only" />
             </div>
           </div>
         </section>
