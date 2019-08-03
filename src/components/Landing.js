@@ -21,11 +21,13 @@ class Landing extends Component {
       old_device: "",
       other_issue: [],
       original_accesories_available: [],
-      mobile_number: ""
+      mobile_number: "",
+      progress_bar_state: 0
     };
 
     this.gd_click = this.gd_click.bind(this);
     this.gd_mulClick = this.gd_mulClick.bind(this);
+    this.afterChangeHandler = this.afterChangeHandler.bind(this);
   }
 
   gd_click(key, id) {
@@ -47,7 +49,49 @@ class Landing extends Component {
     });
   }
 
+  afterChangeHandler(currentSlide) {
+    this.setState(prevState => {
+      let newState = prevState;
+      newState.progress_bar_state = currentSlide * 12.5;
+      console.log(currentSlide, newState);
+      return newState;
+    });
+  }
+
   render() {
+    const progressBar = (
+      <div>
+        <div id="sell_progress_bar">
+          <span className="baricon orange active" />
+          <span
+            id="progress_1"
+            className="line_progress"
+            style={{
+              "--sell-progress": this.state.progress_bar_state.toString() + "%"
+            }}
+          />
+          <span className="baricon orange" />
+          <span id="progress_2" className="line_progress" />
+          <span className="baricon orange" />
+        </div>
+
+        <div className="progressbar_info">
+          <span>
+            <span>01</span>
+            <span>Gadget Details</span>
+          </span>
+          <span style={{ marginLeft: "20%" }}>
+            <span>02</span>
+            <span>Book Appointment</span>
+          </span>
+          <span style={{ marginLeft: "20%" }}>
+            <span>03</span>
+            <span>Sell Phone</span>
+          </span>
+        </div>
+      </div>
+    );
+
     const slider_settings = {
       dots: true,
       infinite: false,
@@ -431,35 +475,14 @@ class Landing extends Component {
           <div className="container">
             <div className="row">
               <div className="col s12 m8">
-                <div id="sell_progress_bar">
-                  <span className="baricon orange active" />
-                  <span
-                    id="progress_1"
-                    className="line_progress"
-                    style={{ "--sell-progress": "10%" }}
-                  />
-                  <span className="baricon orange" />
-                  <span id="progress_2" className="line_progress" />
-                  <span className="baricon orange" />
-                </div>
-
-                <div className="progressbar_info">
-                  <span>
-                    <span>01</span>
-                    <span>Gadget Details</span>
-                  </span>
-                  <span style={{ marginLeft: "20%" }}>
-                    <span>02</span>
-                    <span>Book Appointment</span>
-                  </span>
-                  <span style={{ marginLeft: "20%" }}>
-                    <span>03</span>
-                    <span>Sell Phone</span>
-                  </span>
-                </div>
+                {progressBar}
 
                 <div id="sell_phone">
-                  <Slider ref={c => (this.slider = c)} {...slider_settings}>
+                  <Slider
+                    ref={c => (this.slider = c)}
+                    {...slider_settings}
+                    afterChange={this.afterChangeHandler}
+                  >
                     {gadget_details_1}
                     {gadget_details_2}
                     {gadget_details_3}
