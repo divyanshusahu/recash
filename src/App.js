@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import './assets/css/App.css';
+import "./assets/css/App.css";
 
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import Landing from './components/Landing';
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import Landing from "./components/Landing";
 
 function App() {
   return (

@@ -50,10 +50,13 @@ class Header extends Component {
                       SERVICES
                     </a>
                   </li>
-                  <li style={{ borderLeft: "1px solid rgba(0,0,0,0.2)", 
-                               borderRight: "1px solid rgba(0,0,0,0.2)", 
-                               fontWeight: "400"
-                            }}>
+                  <li
+                    style={{
+                      borderLeft: "1px solid rgba(0,0,0,0.2)",
+                      borderRight: "1px solid rgba(0,0,0,0.2)",
+                      fontWeight: "400"
+                    }}
+                  >
                     <a href="!#" className="black-text">
                       <i className="material-icons left">location_on</i>
                       New Delhi
