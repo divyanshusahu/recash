@@ -10,7 +10,7 @@
 }
 
 .baricon.active {
-  
+  box-shadow: 0 0 0 10px #ffe0b2;
 }
 
 .line_progress {
@@ -59,16 +59,19 @@
   font-weight: 750;
 }
 
-.gridlist_root {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  overflow: hidden;
+.pseudoContainer {
+  width: 100%;
+  max-height: 300px;
+  overflow: auto;
 }
 
-.gridlist {
-  width: 100%;
-  max-height: 312px;
+.pseudoContainer .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.brandsLogo {
+  height: 100px;
 }
 
 .selection {
@@ -77,4 +80,36 @@
 
 .selection button {
   width: 100%;
+}
+
+.custom_button {
+  border-radius: 2px;
+  display: inline-block;
+  min-height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  text-transform: uppercase;
+  vertical-align: middle;
+  font-size: 14px;
+  outline: 0;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  color: #000;
+  text-align: center;
+  letter-spacing: 0.5px;
+  background-color: inherit;
+  border: 1px solid rgba(0,0,0,0.2);
+  font-weight: 450;
+}
+
+.custom_button:focus {
+  background-color: #f90;
+  color: white
+}
+
+.custom_button.active {
+  background-color: #ffb74d;
+  box-shadow: 0 0 6px 3px rgba(0,0,0,0.2);
+  border: 1px solid #ef6c00;
 }
