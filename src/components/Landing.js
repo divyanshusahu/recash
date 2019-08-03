@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import "../assets/css/Landing.css";
 import mobiles from "../data/mobile_list";
+import baba from "../assets/img/baba.gif";
 
 class Landing extends Component {
   constructor() {
@@ -30,6 +31,20 @@ class Landing extends Component {
   gd_click(key, id) {
     this.setState(prevState => {
       let newState = prevState;
+      if (key === "brand") {
+        newState = {
+          brand: "",
+          model: "",
+          variant: "",
+          overall_condition: "",
+          display_condition: "",
+          old_device: "",
+          other_issue: [],
+          original_accesories_available: [],
+          mobile_number: "",
+          progress_bar_state: 0
+        };
+      }
       newState[key] = id;
       this.slider.slickNext();
       return newState;
@@ -38,10 +53,11 @@ class Landing extends Component {
 
   gd_mulClick(key, id) {
     this.setState(prevState => {
-      if (prevState[key].indexOf(id) >= 0) {
-        return prevState;
-      }
       let newState = prevState;
+      if (newState[key].indexOf(id) >= 0) {
+        newState[key].splice(newState[key].indexOf(id), 1);
+        return newState;
+      }
       newState[key].push(id);
       return newState;
     });
@@ -109,7 +125,7 @@ class Landing extends Component {
     ));
 
     const gadget_details_1 = (
-      <div id="gadget_details_1">
+      <div id="gadget_details_1" className="gadget_detail">
         <div className="sell_phone_heading">
           <p>Enter Mobile Details and Get Instant Price</p>
           <span className="grey-text">Select Your Phone Brand</span>
@@ -123,7 +139,7 @@ class Landing extends Component {
     );
 
     const gadget_details_2 = (
-      <div id="gadget_details_2">
+      <div id="gadget_details_2" className="gadget_detail">
         <div className="sell_phone_heading">
           <p>Select Phone Modal</p>
         </div>
@@ -131,7 +147,7 @@ class Landing extends Component {
     );
 
     const gadget_details_3 = (
-      <div id="gadget_details_3">
+      <div id="gadget_details_3" className="gadget_detail">
         <div className="sell_phone_heading">
           <p>Select Variant</p>
         </div>
@@ -139,7 +155,10 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button active"
+                className={
+                  "custom_button " +
+                  (this.state.variant === "16gb" ? "active" : null)
+                }
                 onClick={() => this.gd_click("variant", "16gb")}
               >
                 16 GB
@@ -147,7 +166,10 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.variant === "32gb" ? "active" : null)
+                }
                 onClick={() => this.gd_click("variant", "32gb")}
               >
                 32 GB
@@ -157,7 +179,10 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.variant === "64gb" ? "active" : null)
+                }
                 onClick={() => this.gd_click("variant", "64gb")}
               >
                 64 GB
@@ -165,7 +190,10 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.variant === "128gb" ? "active" : null)
+                }
                 onClick={() => this.gd_click("variant", "128gb")}
               >
                 128 GB
@@ -177,7 +205,7 @@ class Landing extends Component {
     );
 
     const gadget_details_4 = (
-      <div id="gadget_details_4">
+      <div id="gadget_details_4" className="gadget_detail">
         <div className="sell_phone_heading">
           <p>Whats the overall condition of your device?</p>
         </div>
@@ -185,7 +213,12 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.overall_condition === "excellent"
+                    ? "active"
+                    : null)
+                }
                 onClick={() => this.gd_click("overall_condition", "excellent")}
               >
                 Excellent
@@ -193,7 +226,12 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.overall_condition === "very_good"
+                    ? "active"
+                    : null)
+                }
                 onClick={() => this.gd_click("overall_condition", "very_good")}
               >
                 Very Good
@@ -203,7 +241,10 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.overall_condition === "good" ? "active" : null)
+                }
                 onClick={() => this.gd_click("overall_condition", "good")}
               >
                 Good
@@ -211,7 +252,10 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.overall_condition === "fair" ? "active" : null)
+                }
                 onClick={() => this.gd_click("overall_condition", "fair")}
               >
                 Fair
@@ -223,7 +267,7 @@ class Landing extends Component {
     );
 
     const gadget_details_5 = (
-      <div id="gadget_details_5">
+      <div id="gadget_details_5" className="gadget_detail">
         <div className="sell_phone_heading">
           <p>
             <i>Great!</i>
@@ -234,7 +278,7 @@ class Landing extends Component {
     );
 
     const gadget_details_6 = (
-      <div id="gadget_details_6">
+      <div id="gadget_details_6" className="gadget_detail">
         <div className="sell_phone_heading">
           <p>How old is your device?</p>
         </div>
@@ -242,7 +286,10 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.old_device === "b3" ? "active" : null)
+                }
                 onClick={() => this.gd_click("old_device", "b3")}
               >
                 Below 3 months
@@ -250,7 +297,10 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.old_device === "b3t6" ? "active" : null)
+                }
                 onClick={() => this.gd_click("old_device", "b3t6")}
               >
                 3 months - 6 months
@@ -260,7 +310,10 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.old_device === "b6t11" ? "active" : null)
+                }
                 onClick={() => this.gd_click("old_device", "b6t11")}
               >
                 6 months - 11 months
@@ -268,7 +321,10 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.old_device === "m11" ? "active" : null)
+                }
                 onClick={() => this.gd_click("old_device", "m11")}
               >
                 Above 11 months
@@ -283,7 +339,7 @@ class Landing extends Component {
     );
 
     const gadget_details_7 = (
-      <div id="gadget_details_7">
+      <div id="gadget_details_7" className="gadget_detail">
         <div className="sell_phone_heading">
           <p>
             <i>Voila!</i>
@@ -294,7 +350,12 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.other_issue.indexOf("headphone_port_issue") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() =>
                   this.gd_mulClick("other_issue", "headphone_port_issue")
                 }
@@ -304,7 +365,12 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.other_issue.indexOf("back_camera_issue") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() =>
                   this.gd_mulClick("other_issue", "back_camera_issue")
                 }
@@ -316,7 +382,12 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.other_issue.indexOf("battery_issue") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() => this.gd_mulClick("other_issue", "battery_issue")}
               >
                 Battery Issue
@@ -324,7 +395,12 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.other_issue.indexOf("button_issue") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() => this.gd_mulClick("other_issue", "button_issue")}
               >
                 Button Issue
@@ -334,7 +410,12 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.other_issue.indexOf("wireless_issue") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() =>
                   this.gd_mulClick("other_issue", "wireless_issue")
                 }
@@ -344,7 +425,12 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.other_issue.indexOf("charging_issue") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() =>
                   this.gd_mulClick("other_issue", "charging_issue")
                 }
@@ -356,7 +442,12 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.other_issue.indexOf("sensors_issue") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() => this.gd_mulClick("other_issue", "sensors_issue")}
               >
                 Any Sensor Issue
@@ -364,7 +455,12 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.other_issue.indexOf("front_camera_issue") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() =>
                   this.gd_mulClick("other_issue", "front_camera_issue")
                 }
@@ -388,7 +484,7 @@ class Landing extends Component {
     );
 
     const gadget_details_8 = (
-      <div id="gadget_details_8">
+      <div id="gadget_details_8" className="gadget_detail">
         <div className="sell_phone_heading">
           <p>Please select the original accesories which are available?</p>
         </div>
@@ -396,7 +492,14 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.original_accesories_available.indexOf(
+                    "charger"
+                  ) >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() =>
                   this.gd_mulClick("original_accesories_available", "charger")
                 }
@@ -406,7 +509,14 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.original_accesories_available.indexOf(
+                    "earphone"
+                  ) >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() =>
                   this.gd_mulClick("original_accesories_available", "earphone")
                 }
@@ -418,7 +528,12 @@ class Landing extends Component {
           <div className="row">
             <div className="col s6 m5">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.original_accesories_available.indexOf("bill") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() =>
                   this.gd_mulClick("original_accesories_available", "bill")
                 }
@@ -428,7 +543,12 @@ class Landing extends Component {
             </div>
             <div className="col s6 m5 offset-m1">
               <button
-                className="custom_button"
+                className={
+                  "custom_button " +
+                  (this.state.original_accesories_available.indexOf("box") >= 0
+                    ? "active"
+                    : null)
+                }
                 onClick={() =>
                   this.gd_mulClick("original_accesories_available", "box")
                 }
@@ -458,9 +578,9 @@ class Landing extends Component {
     return (
       <div id="landing">
         <section>
-          <div className="container">
+          <div className="container-fluid">
             <div className="row">
-              <div className="col s12 m8">
+              <div className="col s12 m6 offset-m1">
                 {progressBar}
 
                 <div id="sell_phone">
@@ -486,7 +606,9 @@ class Landing extends Component {
                   </Slider>
                 </div>
               </div>
-              <div className="col s12 m4 hide-on-small-only" />
+              <div className="col s12 m5 hide-on-small-only">
+                <img src={baba} alt="baba" width="100%" />
+              </div>
             </div>
           </div>
         </section>
