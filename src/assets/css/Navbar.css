@@ -7,7 +7,25 @@
   height: 100%;
 }
 
+nav ul a {
+  position: relative;
+}
+
+nav ul a:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  width: 0;
+  left: 50%;
+  border-bottom: 1px solid red;
+  transition: all 0.5s linear;
+}
+
 nav ul a:hover {
-  border-bottom: 1px solid blue;
-  background-color: initial;
+  background-color: inherit;
+}
+
+nav ul a:hover::before {
+  width: 100%;
+  left: 0;
 }
