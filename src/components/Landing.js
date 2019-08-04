@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import "../assets/css/Landing.css";
 import mobiles from "../data/mobile_list";
@@ -46,7 +47,7 @@ class Landing extends Component {
         };
       }
       newState[key] = id;
-      this.slider.slickNext();
+      setTimeout(() => this.slider.slickNext(), 500);
       return newState;
     });
   }
@@ -131,9 +132,11 @@ class Landing extends Component {
           <span className="grey-text">Select Your Phone Brand</span>
         </div>
         <div id="selection1" className="selection">
-          <div className="pseudoContainer">
-            <div className="row">{mobile_data}</div>
-          </div>
+          <Scrollbars style={{height: "300px"}} autoHide>
+            <div className="pseudoContainer">
+              <div className="row">{mobile_data}</div>
+            </div>
+          </Scrollbars>
         </div>
       </div>
     );
