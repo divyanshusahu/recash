@@ -107,6 +107,11 @@
   font-weight: 450;
 }
 
+.custom_button:hover {
+  box-shadow: 0 0 6px 3px rgba(239, 108, 0, 0.2);
+  border: 1px solid #ef6c00;
+}
+
 .custom_button:focus {
   background-color: initial;
 }

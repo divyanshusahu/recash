@@ -475,7 +475,7 @@ class Landing extends Component {
           <div className="row">
             <div className="col s8 m4">
               <button
-                className="btn orange white-text"
+                className="btn blue white-text"
                 onClick={() => this.slider.slickNext()}
               >
                 Next
@@ -571,7 +571,7 @@ class Landing extends Component {
           </div>
           <div className="row">
             <div className="col s8 m4">
-              <button className="btn orange white-text">Get Price</button>
+              <button className="btn blue white-text">Get Price</button>
             </div>
           </div>
         </div>
