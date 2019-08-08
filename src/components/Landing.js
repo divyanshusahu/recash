@@ -3,10 +3,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Scrollbars } from "react-custom-scrollbars";
-import axios from "axios";
+//import axios from "axios";
 
 import "../assets/css/Landing.css";
-//import mobiles from "../data/mobile_list";
+import mobiles from "../data/phone_data";
 import baba from "../assets/img/baba.gif";
 
 class Landing extends Component {
@@ -35,9 +35,10 @@ class Landing extends Component {
   }
 
   componentDidMount() {
-    axios.get("/api/phone_data").then(res => {
+    /*axios.get("/api/phone_data").then(res => {
       this.setState({ data: res.data });
-    });
+    });*/
+    this.setState({ data: mobiles });
   }
 
   gd_click(key, id) {
@@ -155,11 +156,20 @@ class Landing extends Component {
     try {
       mobile_data = this.state.data.mobiles.map(item => (
         <div
-          className="col s4 m3 brandsLogo"
+          className={
+            "col s4 m3 brandsLogo " +
+            (this.state.brand === item.brand ? "active" : null)
+          }
           key={item.brand}
           onClick={() => this.gd_click("brand", item.brand)}
         >
-          <img src="" alt={item.brand} title={item.brand} width="100%" />
+          <img
+            src={item.img}
+            alt={item.brand}
+            title={item.brand}
+            width="90%"
+            height="90%"
+          />
         </div>
       ));
     } catch {
@@ -321,47 +331,55 @@ class Landing extends Component {
           <p>Whats is the condition of your phone display?</p>
         </div>
         <div id="selection5" className="selection">
-          <div className="row">
-            <div className="col s12 m5">
-              <div
-                className={
-                  "card " +
-                  (this.state.display_condition === "good" ? "active" : null)
-                }
-                onClick={() => this.gd_click("display_condition", "good")}
-              >
-                <div className="card-content">
-                  <span className="card-title">Good Display</span>
-                  <ul>
-                    <li>Touch Working</li>
-                    <li>No Spots on Display</li>
-                    <li>No Lines on Display</li>
-                    <li>No Scratches</li>
-                  </ul>
+          <Scrollbars style={{ height: "300px" }} autoHide>
+            <div className="pseudoContainer">
+              <div className="row">
+                <div className="col s12 m5">
+                  <div
+                    className={
+                      "card " +
+                      (this.state.display_condition === "good"
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() => this.gd_click("display_condition", "good")}
+                  >
+                    <div className="card-content">
+                      <span className="card-title">Good Display</span>
+                      <ul>
+                        <li>Touch Working</li>
+                        <li>No Spots on Display</li>
+                        <li>No Lines on Display</li>
+                        <li>No Scratches</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="col s12 m5 offset-m1">
+                  <div
+                    className={
+                      "card " +
+                      (this.state.display_condition === "faulty"
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() => this.gd_click("display_condition", "faulty")}
+                  >
+                    <div className="card-content">
+                      <span className="card-title">Faulty Display</span>
+                      <ul>
+                        <li>Touch Faulty</li>
+                        <li>Screen Cacked</li>
+                        <li>Heavy Scratches</li>
+                        <li>Visible Lines</li>
+                        <li>Display Discoloration</li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col s12 m5 offset-m1">
-              <div
-                className={
-                  "card " +
-                  (this.state.display_condition === "faulty" ? "active" : null)
-                }
-                onClick={() => this.gd_click("display_condition", "faulty")}
-              >
-                <div className="card-content">
-                  <span className="card-title">Faulty Display</span>
-                  <ul>
-                    <li>Touch Faulty</li>
-                    <li>Screen Cacked</li>
-                    <li>Heavy Scratches</li>
-                    <li>Visible Lines</li>
-                    <li>Display Discoloration</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          </Scrollbars>
         </div>
       </div>
     );
@@ -392,7 +410,7 @@ class Landing extends Component {
                 }
                 onClick={() => this.gd_click("old_device", "b3t6")}
               >
-                3 months - 6 months
+                3 <span className="hide-on-small-only">months</span> - 6 months
               </button>
             </div>
           </div>
@@ -405,7 +423,7 @@ class Landing extends Component {
                 }
                 onClick={() => this.gd_click("old_device", "b6t11")}
               >
-                6 months - 11 months
+                6 <span className="hide-on-small-only">months</span> - 11 months
               </button>
             </div>
             <div className="col s6 m5 offset-m1">
@@ -436,138 +454,149 @@ class Landing extends Component {
           <p>Any other issues with your device?</p>
         </div>
         <div id="selection7" className="selection">
-          <div className="row">
-            <div className="col s6 m5">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.other_issue.indexOf("headphone_port_issue") >= 0
-                    ? "active"
-                    : null)
-                }
-                onClick={() =>
-                  this.gd_mulClick("other_issue", "headphone_port_issue")
-                }
-              >
-                Headphone Port Issue
-              </button>
+          <Scrollbars style={{ height: "300px" }} autoHide>
+            <div className="pseudoContainer">
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("headphone_port_issue") >=
+                      0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "headphone_port_issue")
+                    }
+                  >
+                    Headphone Port Issue
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("back_camera_issue") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "back_camera_issue")
+                    }
+                  >
+                    Back Camera Issue
+                  </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("battery_issue") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "battery_issue")
+                    }
+                  >
+                    Battery Issue
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("button_issue") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "button_issue")
+                    }
+                  >
+                    Button Issue
+                  </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("wireless_issue") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "wireless_issue")
+                    }
+                  >
+                    Wifi/Bluetooth Issue
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("charging_issue") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "charging_issue")
+                    }
+                  >
+                    Charging Issue
+                  </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("sensors_issue") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "sensors_issue")
+                    }
+                  >
+                    Any Sensor Issue
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("front_camera_issue") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "front_camera_issue")
+                    }
+                  >
+                    Front Camera Issue
+                  </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s8 m4">
+                  <button
+                    className="btn blue white-text"
+                    onClick={() => this.slider.slickNext()}
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="col s6 m5 offset-m1">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.other_issue.indexOf("back_camera_issue") >= 0
-                    ? "active"
-                    : null)
-                }
-                onClick={() =>
-                  this.gd_mulClick("other_issue", "back_camera_issue")
-                }
-              >
-                Back Camera Issue
-              </button>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col s6 m5">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.other_issue.indexOf("battery_issue") >= 0
-                    ? "active"
-                    : null)
-                }
-                onClick={() => this.gd_mulClick("other_issue", "battery_issue")}
-              >
-                Battery Issue
-              </button>
-            </div>
-            <div className="col s6 m5 offset-m1">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.other_issue.indexOf("button_issue") >= 0
-                    ? "active"
-                    : null)
-                }
-                onClick={() => this.gd_mulClick("other_issue", "button_issue")}
-              >
-                Button Issue
-              </button>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col s6 m5">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.other_issue.indexOf("wireless_issue") >= 0
-                    ? "active"
-                    : null)
-                }
-                onClick={() =>
-                  this.gd_mulClick("other_issue", "wireless_issue")
-                }
-              >
-                Wifi/Bluetooth Issue
-              </button>
-            </div>
-            <div className="col s6 m5 offset-m1">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.other_issue.indexOf("charging_issue") >= 0
-                    ? "active"
-                    : null)
-                }
-                onClick={() =>
-                  this.gd_mulClick("other_issue", "charging_issue")
-                }
-              >
-                Charging Issue
-              </button>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col s6 m5">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.other_issue.indexOf("sensors_issue") >= 0
-                    ? "active"
-                    : null)
-                }
-                onClick={() => this.gd_mulClick("other_issue", "sensors_issue")}
-              >
-                Any Sensor Issue
-              </button>
-            </div>
-            <div className="col s6 m5 offset-m1">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.other_issue.indexOf("front_camera_issue") >= 0
-                    ? "active"
-                    : null)
-                }
-                onClick={() =>
-                  this.gd_mulClick("other_issue", "front_camera_issue")
-                }
-              >
-                Front Camera Issue
-              </button>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col s8 m4">
-              <button
-                className="btn blue white-text"
-                onClick={() => this.slider.slickNext()}
-              >
-                Next
-              </button>
-            </div>
-          </div>
+          </Scrollbars>
         </div>
       </div>
     );

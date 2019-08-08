@@ -76,6 +76,11 @@
 .brandsLogo {
   height: 100px;
   cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+.brandsLogo.active {
+  border: 1px solid #ef6c00;
 }
 
 .selection {
