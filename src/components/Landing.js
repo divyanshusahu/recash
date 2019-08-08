@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from "react-custom-scrollbars";
+import axios from "axios";
 
 import "../assets/css/Landing.css";
-import mobiles from "../data/mobile_list";
+//import mobiles from "../data/mobile_list";
 import baba from "../assets/img/baba.gif";
 
 class Landing extends Component {
@@ -21,17 +22,28 @@ class Landing extends Component {
       other_issue: [],
       original_accesories_available: [],
       mobile_number: "",
-      progress_bar_state: 0
+      progress_bar_state: 0,
+      data: {}
     };
+
+    this.selected_phone_data = [];
+    this.selected_phone_variant_data = [];
 
     this.gd_click = this.gd_click.bind(this);
     this.gd_mulClick = this.gd_mulClick.bind(this);
     this.afterChangeHandler = this.afterChangeHandler.bind(this);
   }
 
+  componentDidMount() {
+    axios.get("/api/phone_data").then(res => {
+      this.setState({ data: res.data });
+    });
+  }
+
   gd_click(key, id) {
     this.setState(prevState => {
       let newState = prevState;
+
       if (key === "brand") {
         newState = {
           brand: "",
@@ -45,7 +57,31 @@ class Landing extends Component {
           mobile_number: "",
           progress_bar_state: 0
         };
+        this.selected_phone_data = [];
+        this.selected_phone_variant_data = [];
+        for (let i = 0; i < this.state.data.mobiles.length; i++) {
+          if (
+            this.state.data.mobiles[i].brand.toLowerCase() === id.toLowerCase()
+          ) {
+            this.selected_phone_data = this.state.data.mobiles[i].phones;
+            break;
+          }
+        }
       }
+
+      if (key === "model") {
+        for (let i = 0; i < this.selected_phone_data.length; i++) {
+          if (
+            this.selected_phone_data[i].model.toLowerCase() === id.toLowerCase()
+          ) {
+            this.selected_phone_variant_data = this.selected_phone_data[
+              i
+            ].variants;
+            break;
+          }
+        }
+      }
+
       newState[key] = id;
       setTimeout(() => this.slider.slickNext(), 500);
       return newState;
@@ -115,15 +151,20 @@ class Landing extends Component {
       arrows: false
     };
 
-    const mobile_data = mobiles.map(item => (
-      <div
-        className="col s4 m3 brandsLogo"
-        key={item.brand}
-        onClick={() => this.gd_click("brand", item.brand)}
-      >
-        <img src="" alt={item.brand} />
-      </div>
-    ));
+    var mobile_data = [];
+    try {
+      mobile_data = this.state.data.mobiles.map(item => (
+        <div
+          className="col s4 m3 brandsLogo"
+          key={item.brand}
+          onClick={() => this.gd_click("brand", item.brand)}
+        >
+          <img src="" alt={item.brand} title={item.brand} width="100%" />
+        </div>
+      ));
+    } catch {
+      // this can be empty
+    }
 
     const gadget_details_1 = (
       <div id="gadget_details_1" className="gadget_detail">
@@ -132,7 +173,7 @@ class Landing extends Component {
           <span className="grey-text">Select Your Phone Brand</span>
         </div>
         <div id="selection1" className="selection">
-          <Scrollbars style={{height: "300px"}} autoHide>
+          <Scrollbars style={{ height: "300px" }} autoHide>
             <div className="pseudoContainer">
               <div className="row">{mobile_data}</div>
             </div>
@@ -141,13 +182,62 @@ class Landing extends Component {
       </div>
     );
 
+    var phone_data;
+    try {
+      phone_data = this.selected_phone_data.map((item, index) => {
+        return (
+          <div className="col s6 m4" key={index}>
+            <button
+              className={
+                "custom_button " +
+                (this.state.model === item.model ? "active" : null)
+              }
+              onClick={() => this.gd_click("model", item.model)}
+            >
+              {item.model}
+            </button>
+          </div>
+        );
+      });
+    } catch {
+      // this can be empty
+    }
+
     const gadget_details_2 = (
       <div id="gadget_details_2" className="gadget_detail">
         <div className="sell_phone_heading">
           <p>Select Phone Modal</p>
+          <div id="selection2" className="selection">
+            <Scrollbars style={{ height: "300px" }} autoHide>
+              <div className="pseudoContainer">
+                <div className="row">{phone_data}</div>
+              </div>
+            </Scrollbars>
+          </div>
         </div>
       </div>
     );
+
+    var variant_data;
+    try {
+      variant_data = this.selected_phone_variant_data.map((item, index) => {
+        return (
+          <div className="col s6 m5" key={index}>
+            <button
+              className={
+                "custom_button " +
+                (this.state.variant === item ? "active" : null)
+              }
+              onClick={() => this.gd_click("variant", item)}
+            >
+              {item}
+            </button>
+          </div>
+        );
+      });
+    } catch {
+      // this can be empty
+    }
 
     const gadget_details_3 = (
       <div id="gadget_details_3" className="gadget_detail">
@@ -155,54 +245,7 @@ class Landing extends Component {
           <p>Select Variant</p>
         </div>
         <div id="selection3" className="selection">
-          <div className="row">
-            <div className="col s6 m5">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.variant === "16gb" ? "active" : null)
-                }
-                onClick={() => this.gd_click("variant", "16gb")}
-              >
-                16 GB
-              </button>
-            </div>
-            <div className="col s6 m5 offset-m1">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.variant === "32gb" ? "active" : null)
-                }
-                onClick={() => this.gd_click("variant", "32gb")}
-              >
-                32 GB
-              </button>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col s6 m5">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.variant === "64gb" ? "active" : null)
-                }
-                onClick={() => this.gd_click("variant", "64gb")}
-              >
-                64 GB
-              </button>
-            </div>
-            <div className="col s6 m5 offset-m1">
-              <button
-                className={
-                  "custom_button " +
-                  (this.state.variant === "128gb" ? "active" : null)
-                }
-                onClick={() => this.gd_click("variant", "128gb")}
-              >
-                128 GB
-              </button>
-            </div>
-          </div>
+          <div className="row">{variant_data}</div>
         </div>
       </div>
     );
@@ -276,6 +319,49 @@ class Landing extends Component {
             <i>Great!</i>
           </p>
           <p>Whats is the condition of your phone display?</p>
+        </div>
+        <div id="selection5" className="selection">
+          <div className="row">
+            <div className="col s12 m5">
+              <div
+                className={
+                  "card " +
+                  (this.state.display_condition === "good" ? "active" : null)
+                }
+                onClick={() => this.gd_click("display_condition", "good")}
+              >
+                <div className="card-content">
+                  <span className="card-title">Good Display</span>
+                  <ul>
+                    <li>Touch Working</li>
+                    <li>No Spots on Display</li>
+                    <li>No Lines on Display</li>
+                    <li>No Scratches</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="col s12 m5 offset-m1">
+              <div
+                className={
+                  "card " +
+                  (this.state.display_condition === "faulty" ? "active" : null)
+                }
+                onClick={() => this.gd_click("display_condition", "faulty")}
+              >
+                <div className="card-content">
+                  <span className="card-title">Faulty Display</span>
+                  <ul>
+                    <li>Touch Faulty</li>
+                    <li>Screen Cacked</li>
+                    <li>Heavy Scratches</li>
+                    <li>Visible Lines</li>
+                    <li>Display Discoloration</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -592,19 +678,23 @@ class Landing extends Component {
                     {...slider_settings}
                     afterChange={this.afterChangeHandler}
                   >
-                    {gadget_details_1}
-                    {gadget_details_2}
-                    {gadget_details_3}
-                    {gadget_details_4}
-                    {gadget_details_5}
-                    {gadget_details_6}
-                    {gadget_details_7}
-                    {gadget_details_8}
-                    <div id="book_appointment">
-                      <p>Book appoinment</p>
+                    <div className="sliders_div">{gadget_details_1}</div>
+                    <div className="sliders_div">{gadget_details_2}</div>
+                    <div className="sliders_div">{gadget_details_3}</div>
+                    <div className="sliders_div">{gadget_details_4}</div>
+                    <div className="sliders_div">{gadget_details_5}</div>
+                    <div className="sliders_div">{gadget_details_6}</div>
+                    <div className="sliders_div">{gadget_details_7}</div>
+                    <div className="sliders_div">{gadget_details_8}</div>
+                    <div className="sliders_div">
+                      <div id="book_appointment">
+                        <p>Book appoinment</p>
+                      </div>
                     </div>
-                    <div id="sell_phone">
-                      <p>Sell Phone</p>
+                    <div className="sliders_div">
+                      <div id="sell_phone">
+                        <p>Sell Phone</p>
+                      </div>
                     </div>
                   </Slider>
                 </div>

@@ -10,8 +10,12 @@ class SignUp extends Component {
   }
 
   render() {
+    var sidebar_width = "25%";
+    if (window.innerWidth <= 600 ) {
+      sidebar_width = "300px";
+    }
     return (
-      <Menu right width={ '25%' }>
+      <Menu right width={ sidebar_width }>
         <div className="container-fluid" style={{height: "100%"}}>
           <div className="row">
             <div className="col s12">
