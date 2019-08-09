@@ -8,12 +8,12 @@
 - Navigation bar for small device (ie. below 992px)
 - ~~Progress Bar functionality~~
 - ~~Information below progress bar~~
-- Brand Logo Images
+- ~~Brand Logo Images~~
 - ~~Save User input in an object and send it to server~~
 - ~~SignUp/SignIn from sidebar~~
 - ~~Advance feature in save input with different styling~~
 - SQL database, save user input without array
-- Implement Redux for better state managment.
+- ~~Implement Redux for better state managment~~
 
 ### How the user input is saved
 

@@ -1,4 +1,7 @@
 import React from "react";
+import { Provider } from "react-redux";
+
+import store from "./store";
 
 import "./assets/css/App.css";
 
@@ -9,12 +12,14 @@ import SignUp from "./components/SignUp";
 
 function App() {
   return (
-    <div className="wrapper">
-      <SignUp />
-      <Header />
-      <Landing />
-      <Footer />
-    </div>
+    <Provider store={store}>
+      <div className="wrapper">
+        <SignUp />
+        <Header />
+        <Landing />
+        <Footer />
+      </div>
+    </Provider>
   );
 }
 

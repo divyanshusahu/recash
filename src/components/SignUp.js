@@ -1,22 +1,38 @@
 import React, { Component } from "react";
 import { slide as Menu } from "react-burger-menu";
-import "../assets/css/SignUp.css";
+import { connect } from "react-redux";
+import { signupToggle } from "../actions/signupToggleActions";
 
+import "../assets/css/SignUp.css";
 import ill from "../assets/img/ill.svg";
 
 class SignUp extends Component {
-  showSettings(event) {
-    event.preventDefault();
+  constructor(props) {
+    super(props);
+
+    this.handleStateChange = this.handleStateChange.bind(this);
+  }
+
+  handleStateChange(state) {
+    if (!state.isOpen) {
+      this.props.signupToggle(true);
+    }
   }
 
   render() {
     var sidebar_width = "25%";
-    if (window.innerWidth <= 600 ) {
+    if (window.innerWidth <= 600) {
       sidebar_width = "300px";
     }
     return (
-      <Menu right width={ sidebar_width }>
-        <div className="container-fluid" style={{height: "100%"}}>
+      <Menu
+        right
+        width={sidebar_width}
+        isOpen={this.props.isOpen.isOpen}
+        onStateChange={state => this.handleStateChange(state)}
+        customBurgerIcon={false}
+      >
+        <div className="container-fluid" style={{ height: "100%" }}>
           <div className="row">
             <div className="col s12">
               <img src={ill} width="100%" alt="SignUp" />
@@ -37,4 +53,11 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapStateToProps = state => ({
+  isOpen: state.signupToggle
+});
+
+export default connect(
+  mapStateToProps,
+  { signupToggle }
+)(SignUp);

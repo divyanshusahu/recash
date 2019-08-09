@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { signupToggle } from "../../actions/signupToggleActions";
+
 import logo from "../../assets/img/logo.svg";
 import "../../assets/css/Navbar.css";
 
@@ -16,39 +19,25 @@ class Header extends Component {
 
                 <ul className="right hide-on-med-and-down navbar_components">
                   <li>
-                    <a href="!#" className="red-text">
-                      HOME
-                    </a>
+                    <span className="red-text">HOME</span>
                   </li>
                   <li>
-                    <a href="!#" className="black-text">
-                      HOW IT WORKS
-                    </a>
+                    <span className="black-text">HOW IT WORKS</span>
                   </li>
                   <li>
-                    <a href="!#" className="black-text">
-                      CUSTOMER REVIEWS
-                    </a>
+                    <span className="black-text">CUSTOMER REVIEWS</span>
                   </li>
                   <li>
-                    <a href="!#" className="black-text">
-                      FAQ
-                    </a>
+                    <span className="black-text">FAQ</span>
                   </li>
                   <li>
-                    <a href="!#" className="black-text">
-                      BLOG
-                    </a>
+                    <span className="black-text">BLOG</span>
                   </li>
                   <li>
-                    <a href="!#" className="black-text">
-                      BECOME OUR PARTNER
-                    </a>
+                    <span className="black-text">BECOME OUR PARTNER</span>
                   </li>
                   <li>
-                    <a href="!#" className="black-text">
-                      SERVICES
-                    </a>
+                    <span className="black-text">SERVICES</span>
                   </li>
                   <li
                     style={{
@@ -57,17 +46,22 @@ class Header extends Component {
                       fontWeight: "400"
                     }}
                   >
-                    <a href="!#" className="black-text">
+                    <span className="black-text">
                       <i className="material-icons left">location_on</i>
                       New Delhi
                       <i className="material-icons right">arrow_drop_down</i>
-                    </a>
+                    </span>
                   </li>
-                  <li>
-                    <a href="!#" className="blue-text">
+                  <li style={{ borderRight: "1px solid rgba(0,0,0,0.2)" }}>
+                    <span className="blue-text">
                       <i className="material-icons left">phone</i>
                       1800-12345-2323
-                    </a>
+                    </span>
+                  </li>
+                  <li onClick={() => this.props.signupToggle(false)}>
+                    <span href="!#" className="black-text">
+                      SIGN UP
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -79,4 +73,9 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({});
+
+export default connect(
+  mapStateToProps,
+  { signupToggle }
+)(Header);
