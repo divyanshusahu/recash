@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import TextLoop from "react-text-loop";
 import { Link } from "react-router-dom";
+import Slider from "react-slick";
+import FAQ from "./layout/FAQ";
 
 import "../assets/css/Landing.css";
 import smartphone from "../assets/icon/smartphone.svg";
@@ -15,22 +17,25 @@ import baba from "../assets/img/baba.gif";
 
 class Landing extends Component {
   render() {
+    const slider_settings = {
+      dots: false,
+      infinite: true,
+      speed: 1000,
+      slidesToShow: 2,
+      slidesToScroll: 1,
+      arrows: true
+    };
+
     return (
-      <div id="home">
+      <div id="home" className="homepage_div_break">
         <div className="container">
           <div className="row">
-            <div className="col s12 m8 offset-m2">
+            <div className="col s12 m8">
               <p className="main-heading">
                 Sell your{" "}
                 <TextLoop
                   className="red-text"
-                  children={[
-                    "Mobile",
-                    "Laptop",
-                    "Tablet",
-                    "Games",
-                    "Consoles"
-                  ]}
+                  children={["Mobile", "Laptop", "Tablet", "Games", "Consoles"]}
                 />{" "}
                 Quickly.
               </p>
@@ -60,7 +65,7 @@ class Landing extends Component {
             </div>
           </div>
 
-          <div id="categories" style={{ marginTop: "2rem" }}>
+          <div id="categories" className="homepage_div_break">
             <div className="row">
               <div className="col s4 m2">
                 <Link to="/sell-mobiles">
@@ -132,11 +137,11 @@ class Landing extends Component {
             </div>
           </div>
 
-          <div id="how-it-works">
+          <div id="how-it-works" className="homepage_div_break">
             <p className="main-heading">How reCash works?</p>
             <p className="sub-sub-heading grey-text text-darken-2">
-              Sell your gadget same day! Here's what our mobile selling
-              process looks like
+              Sell your gadget same day! Here's what our mobile selling process
+              looks like
             </p>
             <div className="row">
               <div className="col s12 m4">
@@ -155,8 +160,8 @@ class Landing extends Component {
                         </span>
                       </p>
                       <p className="grey-text">
-                        Answer a few simple questions. Unlock the best
-                        selling price for your mobile.
+                        Answer a few simple questions. Unlock the best selling
+                        price for your mobile.
                       </p>
                     </div>
                   </div>
@@ -205,6 +210,66 @@ class Landing extends Component {
               </div>
               <div className="col s12 m6 offset-m2 hide-on-small-only">
                 <img src={baba} alt="custom_gif" width="100%" />
+              </div>
+            </div>
+          </div>
+
+          <div id="customers-review" className="homepage_div_break">
+            <p className="sub-heading">Happy Customers</p>
+            <p className="paragraph grey-text text-darken-3">
+              Happy you = Happy us! here's what our customers have to say about
+              their experience of selling their gadgets to reCash.
+            </p>
+            <div className="container-fluid" style={{ padding: "0rem" }}>
+              <Slider {...slider_settings}>
+                <div>
+                  <div className="card z-depth-1">
+                    <div className="card-content">1</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="card z-depth-1">
+                    <div className="card-content">2</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="card z-depth-1">
+                    <div className="card-content">3</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="card z-depth-1">
+                    <div className="card-content">4</div>
+                  </div>
+                </div>
+              </Slider>
+            </div>
+          </div>
+
+          <div id="blog" className="homepage_div_break">
+            <p className="main-heading">Latest Articles by reCash Blog</p>
+            <div
+              style={{
+                width: "100%",
+                height: "300px",
+                backgroundColor: "lightgrey"
+              }}
+            />
+          </div>
+
+          <div id="faq" className="homepage_div_break">
+            <p className="main-heading">Have Questions ?</p>
+            <p className="paragraph grey-text text-darken-2">
+              If you have any questions about our preowned phone selling process
+              or want to know more about reCash. Call us on 0987654321.
+            </p>
+            <p className="mini-paragraph grey-text text-darken-1">
+              Meanwhile, you can get answers to the frequently asked questions
+              here
+            </p>
+            <div className="row">
+              <div className="col s12 m8">
+                <FAQ />
               </div>
             </div>
           </div>

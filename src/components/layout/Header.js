@@ -49,7 +49,9 @@ class Header extends Component {
                     <span className="black-text">
                       <i className="material-icons left">location_on</i>
                       New Delhi
-                      <i className="material-icons right">arrow_drop_down</i>
+                      <i className="material-icons right">
+                        arrow_drop_down
+                      </i>
                     </span>
                   </li>
                   <li style={{ borderRight: "1px solid rgba(0,0,0,0.2)" }}>
