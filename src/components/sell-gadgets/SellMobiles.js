@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Scrollbars } from "react-custom-scrollbars";
 //import axios from "axios";
 
-import "../../assets/css/Landing.css";
+import "../../assets/css/SellMobile.css";
 import mobiles from "../../data/phone_data";
 import baba from "../../assets/img/baba.gif";
 

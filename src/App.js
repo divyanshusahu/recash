@@ -8,6 +8,7 @@ import "./assets/css/App.css";
 
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import Landing from "./components/Landing";
 import SellMobiles from "./components/sell-gadgets/SellMobiles";
 import SignUp from "./components/SignUp";
 
@@ -18,6 +19,7 @@ function App() {
         <div className="wrapper">
           <SignUp />
           <Header />
+          <Route exact path="/" component={Landing} />
           <Route path="/sell-mobiles" component={SellMobiles} />
           <Footer />
         </div>

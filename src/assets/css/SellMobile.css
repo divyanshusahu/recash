@@ -1,0 +1,211 @@
+#landing {
+  margin-top: 5em;
+}
+
+.baricon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+}
+
+.baricon.active {
+  box-shadow: 0 0 0 10px #ffe0b2;
+}
+
+.line_progress {
+  display: inline-block;
+  width: calc((100% - 36px) / 2);
+  height: 6px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#sell_progress_bar {
+  height: 50px;
+  width: 80%;
+  margin: auto;
+}
+
+.progressbar_info {
+  width: 100%;
+  height: 100px;
+  padding: 0 6px;
+}
+
+.progressbar_info span {
+  display: inline-block;
+  width: 20%;
+  text-align: center;
+}
+
+.progressbar_info span span {
+  width: 100%;
+}
+
+#progress_1:before {
+  content: "";
+  position: absolute;
+  left: 0%;
+  top: -1px;
+  width: var(--sell-progress);
+  border-top: 1px solid #ff9980;
+  z-index: 9;
+  transition: all 0.5s linear;
+}
+
+.gadget_detail {
+  padding: 10px;
+}
+
+.sell_phone_heading p {
+  font-size: 2em;
+  font-weight: 750;
+}
+
+.pseudoContainer {
+  width: 100%;
+  max-height: 300px;
+}
+
+.pseudoContainer .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.brandsLogo {
+  height: 100px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+.brandsLogo.active {
+  border: 1px solid #ef6c00;
+}
+
+.selection {
+  margin-top: 50px;
+}
+
+.selection button {
+  width: 100%;
+}
+
+.custom_button {
+  border-radius: 2px;
+  display: inline-block;
+  min-height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  text-transform: uppercase;
+  vertical-align: middle;
+  font-size: 14px;
+  outline: 0;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  color: #000;
+  text-align: center;
+  letter-spacing: 0.5px;
+  background-color: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-weight: 450;
+}
+
+.custom_button:hover {
+  box-shadow: 0 0 6px 3px rgba(239, 108, 0, 0.2);
+  border: 1px solid #ef6c00;
+}
+
+.custom_button:focus {
+  background-color: initial;
+}
+
+.custom_button.active {
+  background-color: #ffb74d;
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ef6c00;
+}
+
+.slick-dots li {
+  width: 8px;
+  height: 8px;
+  margin: 0 10px;
+}
+
+.slick-dots li button {
+  border-radius: 100%;
+  line-height: 12px;
+  height: 12px;
+  width: 12px;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+}
+
+.slick-dots li button:hover {
+  color: black;
+  opacity: 0.25;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 1;
+  color: #ff9980;
+  border-radius: 100%;
+  animation: pulse 2s infinite;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
+    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+    box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+  }
+}
+
+#selection5 .row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#selection5 .card {
+  cursor: pointer;
+  height: 100%;
+  box-shadow: none;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 0.5rem;
+}
+
+#selection5 .card:hover {
+  box-shadow: 0 0 6px 3px rgba(239, 108, 0, 0.2);
+  border: 1px solid #ef6c00;
+}
+
+#selection5 .card.active {
+  background-color: rgba(255, 183, 77, 0.5);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ef6c00;
+}
+
+.sliders_div {
+  height: 450px;
+}

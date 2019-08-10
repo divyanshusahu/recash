@@ -12,7 +12,7 @@ import "../../assets/css/Footer.css";
 function Footer() {
   return (
     <footer className="white-text blue-grey darken-2">
-      <div className="container-fluid">
+      <div className="container">
         <div className="row">
           <div className="col s12 m3">
             <p>KEEP IN TOUCH</p>
