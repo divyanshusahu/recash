@@ -1,0 +1,19 @@
+footer {
+  margin-top: 5rem;
+  padding: 2rem;
+}
+
+.footer-icons {
+  font-size: 28px;
+  padding-right: 0.8rem;
+}
+
+.footer-useful-links span{
+  display: inline-block;
+  padding-right: 1rem;
+  padding-left: 0.5rem;
+}
+
+.footer-useful-links p {
+  padding-left: 0.5rem;
+}
