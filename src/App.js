@@ -13,6 +13,7 @@ import Footer from "./components/layout/Footer";
 import Landing from "./components/Landing";
 import SellMobiles from "./components/sell-gadgets/SellMobiles";
 import SignUp from "./components/SignUp";
+import BecomeAPartner from "./components/BecomeAPartner";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <SignUp />
           <Header />
           <Route exact path="/" component={Landing} />
+          <Route exact path="/become-a-partner" component={BecomeAPartner} />
           <Route path="/sell-mobiles" component={SellMobiles} />
           <Footer />
         </div>

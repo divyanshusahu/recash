@@ -258,20 +258,7 @@ class Landing extends Component {
           </div>
 
           <div id="faq" className="homepage_div_break">
-            <p className="main-heading">Have Questions ?</p>
-            <p className="paragraph grey-text text-darken-2">
-              If you have any questions about our preowned phone selling process
-              or want to know more about reCash. Call us on 0987654321.
-            </p>
-            <p className="mini-paragraph grey-text text-darken-1">
-              Meanwhile, you can get answers to the frequently asked questions
-              here
-            </p>
-            <div className="row">
-              <div className="col s12 m8">
-                <FAQ />
-              </div>
-            </div>
+            <FAQ />
           </div>
         </div>
       </div>
