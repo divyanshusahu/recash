@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { signupToggle } from "../../actions/signupToggleActions";
 
 import logo from "../../assets/img/logo.svg";
@@ -19,25 +20,25 @@ class Header extends Component {
 
                 <ul className="right hide-on-med-and-down navbar_components">
                   <li>
-                    <span className="red-text">HOME</span>
+                    <Link to="/"><span className="red-text">HOME</span></Link>
                   </li>
                   <li>
-                    <span className="black-text">HOW IT WORKS</span>
+                    <Link to="#how-it-works"><span className="black-text">HOW IT WORKS</span></Link>
                   </li>
                   <li>
-                    <span className="black-text">CUSTOMER REVIEWS</span>
+                    <Link to="#customers-review"><span className="black-text">CUSTOMER REVIEWS</span></Link>
                   </li>
                   <li>
-                    <span className="black-text">FAQ</span>
+                    <Link to="#default_faq"><span className="black-text">FAQ</span></Link>
                   </li>
                   <li>
-                    <span className="black-text">BLOG</span>
+                    <Link to="/blog"><span className="black-text">BLOG</span></Link>
                   </li>
                   <li>
-                    <span className="black-text">BECOME OUR PARTNER</span>
+                    <Link to="/become-a-partner"><span className="black-text">BECOME OUR PARTNER</span></Link>
                   </li>
                   <li>
-                    <span className="black-text">SERVICES</span>
+                    <Link to="#!"><span className="black-text">SERVICES</span></Link>
                   </li>
                   <li
                     style={{
@@ -46,24 +47,24 @@ class Header extends Component {
                       fontWeight: "400"
                     }}
                   >
-                    <span className="black-text">
+                    <Link to="#!"><span className="black-text">
                       <i className="material-icons left">location_on</i>
                       New Delhi
                       <i className="material-icons right">
                         arrow_drop_down
                       </i>
-                    </span>
+                    </span></Link>
                   </li>
                   <li style={{ borderRight: "1px solid rgba(0,0,0,0.2)" }}>
-                    <span className="blue-text">
+                    <Link to="#!"><span className="blue-text">
                       <i className="material-icons left">phone</i>
                       1800-12345-2323
-                    </span>
+                    </span></Link>
                   </li>
                   <li onClick={() => this.props.signupToggle(false)}>
-                    <span href="!#" className="black-text">
+                    <Link to="#!"><span className="black-text">
                       SIGN UP
-                    </span>
+                    </span></Link>
                   </li>
                 </ul>
               </div>

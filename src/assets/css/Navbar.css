@@ -7,7 +7,7 @@
   height: 100%;
 }
 
-nav ul li span {
+/*nav ul li span {
   cursor: pointer;
   display: inline-block;
   position: relative;
@@ -30,6 +30,33 @@ nav ul li span:hover {
 }
 
 nav ul li span:hover::before {
+  width: 100%;
+  left: 0;
+}*/
+
+nav ul li a {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  height: 100%;
+  /*margin: 0 1rem;*/
+}
+
+nav ul li a:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  width: 0;
+  left: 50%;
+  border-bottom: 1px solid red;
+  transition: all 0.5s linear;
+}
+
+nav ul li a:hover {
+  background-color: inherit;
+}
+
+nav ul li a:hover::before {
   width: 100%;
   left: 0;
 }

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-/*import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";*/
+import FAQ from "../layout/FAQ";
 import { Scrollbars } from "react-custom-scrollbars";
-//import axios from "axios";
+import axios from "axios";
 
 import "../../assets/css/SellMobile.css";
-import mobiles from "../../data/phone_data";
+//import mobiles from "../../data/phone_data";
 import baba from "../../assets/img/baba.gif";
 
 class SellMobiles extends Component {
@@ -31,14 +30,19 @@ class SellMobiles extends Component {
 
     this.gd_click = this.gd_click.bind(this);
     this.gd_mulClick = this.gd_mulClick.bind(this);
+    this.prevSlide = this.prevSlide.bind(this);
     this.afterChangeHandler = this.afterChangeHandler.bind(this);
   }
 
   componentDidMount() {
-    /*axios.get("/api/phone_data").then(res => {
-      this.setState({ data: res.data });
-    });*/
-    this.setState({ data: mobiles });
+    axios
+      .get(
+        "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/phone_data"
+      )
+      .then(res => {
+        this.setState({ data: res.data });
+      });
+    //this.setState({ data: mobiles });
   }
 
   gd_click(key, id) {
@@ -101,12 +105,20 @@ class SellMobiles extends Component {
     });
   }
 
+  prevSlide() {
+    this.slider.slickPrev();
+  }
+
   afterChangeHandler(currentSlide) {
     this.setState(prevState => {
       let newState = prevState;
       newState.progress_bar_state = currentSlide * 12.5;
       return newState;
     });
+  }
+
+  removeDotsPropagation(e) {
+    e.stopPropagation();
   }
 
   render() {
@@ -588,7 +600,7 @@ class SellMobiles extends Component {
               <div className="row">
                 <div className="col s8 m4">
                   <button
-                    className="btn blue white-text"
+                    className="custom_action_button"
                     onClick={() => this.slider.slickNext()}
                   >
                     Next
@@ -686,7 +698,7 @@ class SellMobiles extends Component {
           </div>
           <div className="row">
             <div className="col s8 m4">
-              <button className="btn blue white-text">Get Price</button>
+              <button className="custom_action_button">Get Price</button>
             </div>
           </div>
         </div>
@@ -702,6 +714,9 @@ class SellMobiles extends Component {
                 {progressBar}
 
                 <div id="sell_phone">
+                  <span onClick={this.prevSlide} style={{ cursor: "pointer" }}>
+                    <i className="material-icons">arrow_back</i>
+                  </span>
                   <Slider
                     ref={c => (this.slider = c)}
                     {...slider_settings}
@@ -734,6 +749,12 @@ class SellMobiles extends Component {
             </div>
           </div>
         </section>
+
+        <div className="homepage_div_break">
+          <div className="container">
+            <FAQ />
+          </div>
+        </div>
       </div>
     );
   }

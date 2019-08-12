@@ -59,39 +59,49 @@ class BecomeAPartner extends Component {
                             <form>
                               <div className="row">
                                 <div className=" input-field col s6">
-                                  <input
-                                    type="text"
-                                    placeholder="Full Name"
-                                    name="name"
-                                  />
+                                  <div className="bap-custom-inputs">
+                                    <input
+                                      type="text"
+                                      placeholder="Full Name"
+                                      name="name"
+                                    />
+                                  </div>
                                 </div>
                                 <div className=" input-field col s6">
-                                  <input
-                                    type="number"
-                                    placeholder="Pin Code"
-                                    name="pincode"
-                                  />
+                                  <div className="bap-custom-inputs">
+                                    <input
+                                      type="number"
+                                      placeholder="Pin Code"
+                                      name="pincode"
+                                    />
+                                  </div>
                                 </div>
                                 <div className=" input-field col s6">
-                                  <input
-                                    type="tel"
-                                    placeholder="Mobile Number"
-                                    name="mobile_number"
-                                  />
+                                  <div className="bap-custom-inputs">
+                                    <input
+                                      type="tel"
+                                      placeholder="Mobile Number"
+                                      name="mobile_number"
+                                    />
+                                  </div>
                                 </div>
                                 <div className=" input-field col s6">
-                                  <input
-                                    type="email"
-                                    placeholder="Email"
-                                    name="email"
-                                  />
+                                  <div className="bap-custom-inputs">
+                                    <input
+                                      type="email"
+                                      placeholder="Email"
+                                      name="email"
+                                    />
+                                  </div>
                                 </div>
                                 <div className=" input-field col s12">
-                                  <input
-                                    type="text"
-                                    placeholder="Dealership Name"
-                                    name="dealership_name"
-                                  />
+                                  <div className="bap-custom-inputs">
+                                    <input
+                                      type="text"
+                                      placeholder="Dealership Name"
+                                      name="dealership_name"
+                                    />
+                                  </div>
                                 </div>
                                 <div className=" input-field col s12">
                                   <button
