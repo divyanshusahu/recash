@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import FAQ from "../layout/FAQ";
 import { Scrollbars } from "react-custom-scrollbars";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 import "../../assets/css/SellMobile.css";
 //import mobiles from "../../data/phone_data";
@@ -27,11 +28,13 @@ class SellMobiles extends Component {
 
     this.selected_phone_data = [];
     this.selected_phone_variant_data = [];
+    this.selected_mobile_image = "";
 
     this.gd_click = this.gd_click.bind(this);
     this.gd_mulClick = this.gd_mulClick.bind(this);
     this.prevSlide = this.prevSlide.bind(this);
     this.afterChangeHandler = this.afterChangeHandler.bind(this);
+    this.getPrice = this.getPrice.bind(this);
   }
 
   componentDidMount() {
@@ -60,10 +63,12 @@ class SellMobiles extends Component {
           other_issue: [],
           original_accesories_available: [],
           mobile_number: "",
-          progress_bar_state: 0
+          progress_bar_state: 0,
+          selected_mobile_image: ""
         };
         this.selected_phone_data = [];
         this.selected_phone_variant_data = [];
+        this.selected_mobile_image = "";
         for (let i = 0; i < this.state.data.mobiles.length; i++) {
           if (
             this.state.data.mobiles[i].brand.toLowerCase() === id.toLowerCase()
@@ -82,6 +87,7 @@ class SellMobiles extends Component {
             this.selected_phone_variant_data = this.selected_phone_data[
               i
             ].variants;
+            this.selected_mobile_image = this.selected_phone_data[i].img;
             break;
           }
         }
@@ -119,6 +125,44 @@ class SellMobiles extends Component {
 
   removeDotsPropagation(e) {
     e.stopPropagation();
+  }
+
+  getPrice() {
+    //var post_data = this.state
+    if (this.state.mobile_number && this.state.mobile_number.length === 10) {
+      axios
+        .post(
+          "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/user/login",
+          { phone: this.state.mobile_number }
+        )
+        .then(res => {
+          Swal.fire({
+            title: "OTP Varification",
+            input: "number",
+            inputAttributes: {
+              autocapitalize: "off"
+            },
+            text: "Plese enter the six digit OTP that was sent to your mobile",
+            showCancelButton: true,
+            confirmButtonText: "Submit",
+            showLoaderOnConfirm: true
+          });
+        })
+        .catch(() => {
+          Swal.fire({
+            title: "Oops",
+            text: "Something went wrong! Please try again.",
+            type: "error"
+          });
+        });
+    }
+    else {
+      Swal.fire({
+        title: "Error!",
+        text: "Please enter a valid ten digits mobile number",
+        type: "error"
+      });
+    }
   }
 
   render() {
@@ -195,7 +239,7 @@ class SellMobiles extends Component {
           <span className="grey-text">Select Your Phone Brand</span>
         </div>
         <div id="selection1" className="selection">
-          <Scrollbars style={{ height: "300px" }} autoHide>
+          <Scrollbars style={{ height: "350px" }} autoHide>
             <div className="pseudoContainer">
               <div className="row">{mobile_data}</div>
             </div>
@@ -230,7 +274,7 @@ class SellMobiles extends Component {
         <div className="sell_phone_heading">
           <p>Select Phone Modal</p>
           <div id="selection2" className="selection">
-            <Scrollbars style={{ height: "300px" }} autoHide>
+            <Scrollbars style={{ height: "350px" }} autoHide>
               <div className="pseudoContainer">
                 <div className="row">{phone_data}</div>
               </div>
@@ -296,13 +340,11 @@ class SellMobiles extends Component {
               <button
                 className={
                   "custom_button " +
-                  (this.state.overall_condition === "very_good"
-                    ? "active"
-                    : null)
+                  (this.state.overall_condition === "good" ? "active" : null)
                 }
-                onClick={() => this.gd_click("overall_condition", "very_good")}
+                onClick={() => this.gd_click("overall_condition", "good")}
               >
-                Very Good
+                Good
               </button>
             </div>
           </div>
@@ -311,22 +353,26 @@ class SellMobiles extends Component {
               <button
                 className={
                   "custom_button " +
-                  (this.state.overall_condition === "good" ? "active" : null)
+                  (this.state.overall_condition === "average" ? "active" : null)
                 }
-                onClick={() => this.gd_click("overall_condition", "good")}
+                onClick={() => this.gd_click("overall_condition", "average")}
               >
-                Good
+                Average
               </button>
             </div>
             <div className="col s6 m5 offset-m1">
               <button
                 className={
                   "custom_button " +
-                  (this.state.overall_condition === "fair" ? "active" : null)
+                  (this.state.overall_condition === "below_average"
+                    ? "active"
+                    : null)
                 }
-                onClick={() => this.gd_click("overall_condition", "fair")}
+                onClick={() =>
+                  this.gd_click("overall_condition", "below_average")
+                }
               >
-                Fair
+                Below Average
               </button>
             </div>
           </div>
@@ -407,9 +453,9 @@ class SellMobiles extends Component {
               <button
                 className={
                   "custom_button " +
-                  (this.state.old_device === "b3" ? "active" : null)
+                  (this.state.old_device === "<3" ? "active" : null)
                 }
-                onClick={() => this.gd_click("old_device", "b3")}
+                onClick={() => this.gd_click("old_device", "<3")}
               >
                 Below 3 months
               </button>
@@ -418,9 +464,9 @@ class SellMobiles extends Component {
               <button
                 className={
                   "custom_button " +
-                  (this.state.old_device === "b3t6" ? "active" : null)
+                  (this.state.old_device === "3-6" ? "active" : null)
                 }
-                onClick={() => this.gd_click("old_device", "b3t6")}
+                onClick={() => this.gd_click("old_device", "3-6")}
               >
                 3 <span className="hide-on-small-only">months</span> - 6 months
               </button>
@@ -431,22 +477,22 @@ class SellMobiles extends Component {
               <button
                 className={
                   "custom_button " +
-                  (this.state.old_device === "b6t11" ? "active" : null)
+                  (this.state.old_device === "6-10" ? "active" : null)
                 }
-                onClick={() => this.gd_click("old_device", "b6t11")}
+                onClick={() => this.gd_click("old_device", "6-10")}
               >
-                6 <span className="hide-on-small-only">months</span> - 11 months
+                6 <span className="hide-on-small-only">months</span> - 10 months
               </button>
             </div>
             <div className="col s6 m5 offset-m1">
               <button
                 className={
                   "custom_button " +
-                  (this.state.old_device === "m11" ? "active" : null)
+                  (this.state.old_device === ">10" ? "active" : null)
                 }
-                onClick={() => this.gd_click("old_device", "m11")}
+                onClick={() => this.gd_click("old_device", ">10")}
               >
-                Above 11 months
+                Above 10 months
               </button>
             </div>
           </div>
@@ -466,7 +512,7 @@ class SellMobiles extends Component {
           <p>Any other issues with your device?</p>
         </div>
         <div id="selection7" className="selection">
-          <Scrollbars style={{ height: "300px" }} autoHide>
+          <Scrollbars style={{ height: "350px" }} autoHide>
             <div className="pseudoContainer">
               <div className="row">
                 <div className="col s6 m5">
@@ -598,7 +644,7 @@ class SellMobiles extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col s8 m4">
+                <div className="col s12 m6">
                   <button
                     className="custom_action_button"
                     onClick={() => this.slider.slickNext()}
@@ -691,14 +737,23 @@ class SellMobiles extends Component {
             <div className="col s12 m6">
               <div className="input-field">
                 <i className="material-icons prefix">phone</i>
-                <input id="icon_telephone" type="tel" className="validate" />
+                <input
+                  id="icon_telephone"
+                  type="tel"
+                  className="validate"
+                  onChange={event => {
+                    this.setState({ mobile_number: event.target.value });
+                  }}
+                />
                 <label htmlFor="icon_telephone">Mobile Number</label>
               </div>
             </div>
           </div>
           <div className="row">
-            <div className="col s8 m4">
-              <button className="custom_action_button">Get Price</button>
+            <div className="col s12 m12 l6">
+              <button className="custom_action_button" onClick={this.getPrice}>
+                Get Price
+              </button>
             </div>
           </div>
         </div>
@@ -714,7 +769,10 @@ class SellMobiles extends Component {
                 {progressBar}
 
                 <div id="sell_phone">
-                  <span onClick={this.prevSlide} style={{ cursor: "pointer" }}>
+                  <span
+                    onClick={this.prevSlide}
+                    style={{ cursor: "pointer" }}
+                  >
                     <i className="material-icons">arrow_back</i>
                   </span>
                   <Slider
@@ -732,7 +790,35 @@ class SellMobiles extends Component {
                     <div className="sliders_div">{gadget_details_8}</div>
                     <div className="sliders_div">
                       <div id="book_appointment">
-                        <p>Book appoinment</p>
+                        <div className="sell_phone_heading">
+                          <p>
+                            <i>Great!</i> The quote is 10% higher than last
+                            month.
+                          </p>
+                        </div>
+                        <div className="pseudoContainer">
+                          <div className="row">
+                            <div className="col s12 m8">
+                              <div className="card horizontal">
+                                <div className="card-image">
+                                  <img src={this.selected_mobile_image} alt="" />
+                                </div>
+                                <div className="card-stacked">
+                                  <div className="card-content">
+                                    <span className="card-title">{this.state.model}, {this.state.variant}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col s12 m4">
+                              <div className="card">
+                                <div className="card-content">
+                                  <span className="card-title"><b>Price Breakup</b></span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div className="sliders_div">
@@ -743,7 +829,7 @@ class SellMobiles extends Component {
                   </Slider>
                 </div>
               </div>
-              <div className="col s12 m5 hide-on-small-only">
+              <div className="col s12 m5 hide">
                 <img src={baba} alt="baba" width="100%" />
               </div>
             </div>

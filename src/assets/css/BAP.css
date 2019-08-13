@@ -64,10 +64,10 @@
   border: none;
 }
 
-input[type="text"]:not(.browser-default):focus:not([readonly]),
-input[type="tel"]:not(.browser-default):focus:not([readonly]),
-input[type="number"]:not(.browser-default):focus:not([readonly]),
-input[type="email"]:not(.browser-default):focus:not([readonly]) {
+#become-a-partner input[type="text"]:not(.browser-default):focus:not([readonly]),
+#become-a-partner input[type="tel"]:not(.browser-default):focus:not([readonly]),
+#become-a-partner input[type="number"]:not(.browser-default):focus:not([readonly]),
+#become-a-partner input[type="email"]:not(.browser-default):focus:not([readonly]) {
   border-bottom: none !important;
   box-shadow: none !important;
 }
