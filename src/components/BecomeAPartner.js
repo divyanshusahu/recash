@@ -365,7 +365,7 @@ class BecomeAPartner extends Component {
                     <p className="main-heading white-text">
                       Ready to Partner with reCash.
                     </p>
-                    <button className="custom_action_button">
+                    <button className="custom_action_button" style={{width: "300px"}}>
                       GET STARTED
                     </button>
                   </div>

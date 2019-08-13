@@ -23,6 +23,7 @@ class SellMobiles extends Component {
       original_accesories_available: [],
       mobile_number: "",
       progress_bar_state: 0,
+      progress_bar_state_2: 0,
       data: {}
     };
 
@@ -34,15 +35,21 @@ class SellMobiles extends Component {
     this.gd_mulClick = this.gd_mulClick.bind(this);
     this.prevSlide = this.prevSlide.bind(this);
     this.afterChangeHandler = this.afterChangeHandler.bind(this);
+    this.createGetPriceRequest = this.createGetPriceRequest.bind(this);
     this.getPrice = this.getPrice.bind(this);
   }
 
   componentDidMount() {
-    axios.get("/api/phone_data").then(res => {
-      this.setState({ data: res.data });
-    }).catch(() => {
-      this.setState({ data: mobiles });
-    });
+    axios
+      .get(
+        "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/phone_data"
+      )
+      .then(res => {
+        this.setState({ data: res.data });
+      })
+      .catch(() => {
+        this.setState({ data: mobiles });
+      });
   }
 
   gd_click(key, id) {
@@ -115,7 +122,12 @@ class SellMobiles extends Component {
   afterChangeHandler(currentSlide) {
     this.setState(prevState => {
       let newState = prevState;
-      newState.progress_bar_state = currentSlide * 12.5;
+      if (currentSlide === 9) {
+        newState.progress_bar_state_2 = 100;
+      } else {
+        newState.progress_bar_state = currentSlide * 12.5;
+        newState.proggress_bar_state_2 = 0;
+      }
       return newState;
     });
   }
@@ -124,55 +136,105 @@ class SellMobiles extends Component {
     e.stopPropagation();
   }
 
+  createGetPriceRequest() {
+    var post_data = {
+      company: this.state.brand,
+      model: this.state.model,
+      body: this.state.overall_condition,
+      warranty: this.state.old_device,
+      "turn-on-off": this.state.display_condition
+    };
+
+    this.state.other_issue.map(item => {
+      return (post_data[item] = "faulty");
+    });
+
+    this.state.original_accesories_available.map(item => {
+      return (post_data[item] = "present");
+    });
+
+    axios
+      .post(
+        "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/get_price",
+        post_data
+      )
+      .then(res => {
+        this.setState({
+          calculated_price: res.data.price,
+          itemId: res.data.search_id
+        });
+      });
+  }
+
   getPrice() {
-    //var post_data = this.state
     if (this.state.mobile_number && this.state.mobile_number.length >= 10) {
       axios
-        .post("/api/user/login", { phone: this.state.mobile_number })
+        .get(
+          "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/me"
+        )
         .then(res => {
-          Swal.fire({
-            title: "OTP Verification",
-            input: "text",
-            inputAttributes: {
-              autocapitalize: "off"
-            },
-            text: "Plese enter the six digit OTP that was sent to your mobile",
-            showCancelButton: true,
-            confirmButtonText: "Submit",
-            showLoaderOnConfirm: true,
-            preConfirm: otp => {
-              return axios
-                .post("/api/user/verifyotp", { otp: otp })
-                .then(res => {
-                  return res.data;
-                });
-            },
-            allowOutsideClick: () => !Swal.isLoading()
-          }).then(result => {
-            if (result.value) {
-              if (result.value.status) {
-                Swal.fire({
-                  title: "Success",
-                  type: "success",
-                  text: "Login Successful"
-                });
-                this.slider.slickNext();
-              } else {
+          if (res.data.status) {
+            this.createGetPriceRequest();
+            setTimeout(() => this.slider.slickNext(), 500);
+          } else {
+            axios
+              .post(
+                "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/user/login",
+                {
+                  phone: this.state.mobile_number
+                }
+              )
+              .then(res => {
                 Swal.fire({
                   title: "OTP Verification",
-                  type: "error",
-                  text: result.value.message
+                  input: "text",
+                  inputAttributes: {
+                    autocapitalize: "off"
+                  },
+                  text:
+                    "Plese enter the six digit OTP that was sent to your mobile",
+                  showCancelButton: true,
+                  confirmButtonText: "Submit",
+                  showLoaderOnConfirm: true,
+                  preConfirm: otp => {
+                    return axios
+                      .post(
+                        "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/user/verifyotp",
+                        { otp: otp }
+                      )
+                      .then(res => {
+                        return res.data;
+                      });
+                  },
+                  allowOutsideClick: () => !Swal.isLoading()
+                }).then(result => {
+                  if (result.value) {
+                    if (result.value.status) {
+                      Swal.fire({
+                        title: "Success",
+                        type: "success",
+                        text: "Login Successful"
+                      });
+                      this.createGetPriceRequest();
+                      setTimeout(() => this.slider.slickNext(), 1000);
+                    } else {
+                      Swal.fire({
+                        title: "OTP Verification",
+                        type: "error",
+                        text: result.value.message
+                      });
+                    }
+                  }
                 });
-              }
-            }
-          });
-        })
-        .catch(() => {
-          Swal.fire({
-            title: "Oops",
-            text: "Something went wrong! Please try again.",
-            type: "error"
-          });
+              })
+              .catch(() => {
+                Swal.fire({
+                  title: "Oops",
+                  text: "Something went wrong! Please try again.",
+                  type: "error"
+                });
+              });
+          }
         });
     } else {
       Swal.fire({
@@ -196,7 +258,14 @@ class SellMobiles extends Component {
             }}
           />
           <span className="baricon orange" />
-          <span id="progress_2" className="line_progress" />
+          <span
+            id="progress_2"
+            className="line_progress"
+            style={{
+              "--sell-progress-2":
+                this.state.progress_bar_state_2.toString() + "%"
+            }}
+          />
           <span className="baricon orange" />
         </div>
 
@@ -415,9 +484,9 @@ class SellMobiles extends Component {
                 <div
                   className={
                     "card " +
-                    (this.state.display_condition === "good" ? "active" : null)
+                    (this.state.display_condition === "on" ? "active" : null)
                   }
-                  onClick={() => this.gd_click("display_condition", "good")}
+                  onClick={() => this.gd_click("display_condition", "on")}
                 >
                   <div className="card-content">
                     <span className="card-title">Good Display</span>
@@ -434,11 +503,9 @@ class SellMobiles extends Component {
                 <div
                   className={
                     "card " +
-                    (this.state.display_condition === "faulty"
-                      ? "active"
-                      : null)
+                    (this.state.display_condition === "off" ? "active" : null)
                   }
-                  onClick={() => this.gd_click("display_condition", "faulty")}
+                  onClick={() => this.gd_click("display_condition", "off")}
                 >
                   <div className="card-content">
                     <span className="card-title">Faulty Display</span>
@@ -529,148 +596,200 @@ class SellMobiles extends Component {
           <p>Any other issues with your device?</p>
         </div>
         <div id="selection7" className="selection">
-          {/*<Scrollbars style={{ height: "350px" }} autoHide>*/}
-          <div className="pseudoContainer">
-            <div className="row">
-              <div className="col s6 m5">
-                <button
-                  className={
-                    "custom_button " +
-                    (this.state.other_issue.indexOf("headphone_port_issue") >= 0
-                      ? "active"
-                      : null)
-                  }
-                  onClick={() =>
-                    this.gd_mulClick("other_issue", "headphone_port_issue")
-                  }
-                >
-                  Headphone Port Issue
-                </button>
+          <Scrollbars style={{ height: "450px" }} autoHide>
+            <div className="pseudoContainer">
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("headphone_port") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "headphone_port")
+                    }
+                  >
+                    Headphone Port
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("rear_camera") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "rear_camera")
+                    }
+                  >
+                    Rear Camera
+                  </button>
+                </div>
               </div>
-              <div className="col s6 m5 offset-m1">
-                <button
-                  className={
-                    "custom_button " +
-                    (this.state.other_issue.indexOf("back_camera_issue") >= 0
-                      ? "active"
-                      : null)
-                  }
-                  onClick={() =>
-                    this.gd_mulClick("other_issue", "back_camera_issue")
-                  }
-                >
-                  Back Camera Issue
-                </button>
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("front_camera") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "front_camera")
+                    }
+                  >
+                    Front Camrea
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("battery") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() => this.gd_mulClick("other_issue", "battery")}
+                  >
+                    Battery
+                  </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("charging") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() => this.gd_mulClick("other_issue", "charging")}
+                  >
+                    Charging
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("fingerprint") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "fingerprint")
+                    }
+                  >
+                    Fingerprint
+                  </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("microphone") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "microphone")
+                    }
+                  >
+                    Microphone
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("wifi") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() => this.gd_mulClick("other_issue", "wifi")}
+                  >
+                    Wifi
+                  </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("gps") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() => this.gd_mulClick("other_issue", "gps")}
+                  >
+                    GPS
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("bluetooth") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() => this.gd_mulClick("other_issue", "bluetooth")}
+                  >
+                    bluetooth
+                  </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s6 m5">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("speaker") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() => this.gd_mulClick("other_issue", "speaker")}
+                  >
+                    speaker
+                  </button>
+                </div>
+                <div className="col s6 m5 offset-m1">
+                  <button
+                    className={
+                      "custom_button " +
+                      (this.state.other_issue.indexOf("other_sensor") >= 0
+                        ? "active"
+                        : null)
+                    }
+                    onClick={() =>
+                      this.gd_mulClick("other_issue", "other_sensor")
+                    }
+                  >
+                    other sensor
+                  </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col s12 m6 l4">
+                  <button
+                    className="custom_action_button"
+                    onClick={() => this.slider.slickNext()}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col s6 m5">
-                <button
-                  className={
-                    "custom_button " +
-                    (this.state.other_issue.indexOf("battery_issue") >= 0
-                      ? "active"
-                      : null)
-                  }
-                  onClick={() =>
-                    this.gd_mulClick("other_issue", "battery_issue")
-                  }
-                >
-                  Battery Issue
-                </button>
-              </div>
-              <div className="col s6 m5 offset-m1">
-                <button
-                  className={
-                    "custom_button " +
-                    (this.state.other_issue.indexOf("button_issue") >= 0
-                      ? "active"
-                      : null)
-                  }
-                  onClick={() =>
-                    this.gd_mulClick("other_issue", "button_issue")
-                  }
-                >
-                  Button Issue
-                </button>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col s6 m5">
-                <button
-                  className={
-                    "custom_button " +
-                    (this.state.other_issue.indexOf("wireless_issue") >= 0
-                      ? "active"
-                      : null)
-                  }
-                  onClick={() =>
-                    this.gd_mulClick("other_issue", "wireless_issue")
-                  }
-                >
-                  Wifi/Bluetooth Issue
-                </button>
-              </div>
-              <div className="col s6 m5 offset-m1">
-                <button
-                  className={
-                    "custom_button " +
-                    (this.state.other_issue.indexOf("charging_issue") >= 0
-                      ? "active"
-                      : null)
-                  }
-                  onClick={() =>
-                    this.gd_mulClick("other_issue", "charging_issue")
-                  }
-                >
-                  Charging Issue
-                </button>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col s6 m5">
-                <button
-                  className={
-                    "custom_button " +
-                    (this.state.other_issue.indexOf("sensors_issue") >= 0
-                      ? "active"
-                      : null)
-                  }
-                  onClick={() =>
-                    this.gd_mulClick("other_issue", "sensors_issue")
-                  }
-                >
-                  Any Sensor Issue
-                </button>
-              </div>
-              <div className="col s6 m5 offset-m1">
-                <button
-                  className={
-                    "custom_button " +
-                    (this.state.other_issue.indexOf("front_camera_issue") >= 0
-                      ? "active"
-                      : null)
-                  }
-                  onClick={() =>
-                    this.gd_mulClick("other_issue", "front_camera_issue")
-                  }
-                >
-                  Front Camera Issue
-                </button>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col s12 m6 l4">
-                <button
-                  className="custom_action_button"
-                  onClick={() => this.slider.slickNext()}
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          </div>
-          {/*</Scrollbars>*/}
+          </Scrollbars>
         </div>
       </div>
     );
@@ -812,14 +931,13 @@ class SellMobiles extends Component {
                         <div className="pseudoContainer">
                           <div className="row">
                             <div className="col s12 m8">
-                              {/*<div className="container-fluid">
+                              <div className="container-fluid">
                                 <div className="bookAppointmentNavbar">
                                   <div className="row">
-                                    <div className="col s4">
-                                    </div>
+                                    <div className="col s4" />
                                   </div>
                                 </div>
-    </div>*/}
+                              </div>
                               <div className="card horizontal">
                                 <div className="card-image">
                                   <img
@@ -844,23 +962,23 @@ class SellMobiles extends Component {
                                           </p>
                                         </div>
                                         <div className="col s4">
-                                          <p>{this.old_device}</p>
+                                          <p>{this.state.old_device}</p>
                                         </div>
                                         <div className="col s8">
                                           <p className="grey-text text-darken-1">
-                                            Device Life
+                                            Display Condition
                                           </p>
                                         </div>
                                         <div className="col s4">
-                                          <p>{this.old_device}</p>
+                                          <p>{this.state.display_condition}</p>
                                         </div>
                                         <div className="col s8">
                                           <p className="grey-text text-darken-1">
-                                            Device Life
+                                            Overall Condition
                                           </p>
                                         </div>
                                         <div className="col s4">
-                                          <p>{this.old_device}</p>
+                                          <p>{this.state.overall_condition}</p>
                                         </div>
                                       </div>
                                     </div>
@@ -888,7 +1006,7 @@ class SellMobiles extends Component {
                                         </p>
                                       </div>
                                       <div className="col s4">
-                                        <p>2890</p>
+                                        <p>{this.state.calculated_price}</p>
                                       </div>
                                     </div>
                                     <div className="row">
@@ -910,7 +1028,7 @@ class SellMobiles extends Component {
                                       </div>
                                       <div className="col s4">
                                         <p>
-                                          <b>2890</b>
+                                          <b>{this.state.calculated_price}</b>
                                         </p>
                                       </div>
                                     </div>
@@ -935,6 +1053,9 @@ class SellMobiles extends Component {
                                             width: "100%",
                                             margin: "1rem 0"
                                           }}
+                                          onClick={() =>
+                                            this.slider.slickNext()
+                                          }
                                         >
                                           Sell Now
                                         </button>
@@ -950,7 +1071,38 @@ class SellMobiles extends Component {
                     </div>
                     <div className="sliders_div">
                       <div id="sell_phone">
-                        <p>Sell Phone</p>
+                        <div className="pseudoContainer">
+                          <div className="row">
+                            <div className="col s12 m8">
+                              <div className="card">
+                                <div className="card-content">
+                                  <div id="add_address">
+                                    <button>Add New Address</button>
+                                    <p>Saved Address</p>
+                                  </div>
+                                  <div id="select_date" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col s12 m4">
+                              <div className="card">
+                                <div className="card-content">
+                                  <div className="container-fluid">
+                                    <div className="row">
+                                      <div className="col s8">
+                                        <p>Quote Locked</p>
+                                      </div>
+                                      <div className="col s4">
+                                        <p>{this.state.calculated_price}</p>
+                                      </div>
+                                    </div>
+                                    <hr />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Slider>

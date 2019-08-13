@@ -54,6 +54,17 @@
   transition: all 0.5s linear;
 }
 
+#progress_2:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: var(--sell-progress-2);
+  border-top: 1px solid #ff9980;
+  z-index: 9;
+  transition: all 0.5s linear;
+}
+
 .gadget_detail {
   padding: 10px;
   height: 100%;
