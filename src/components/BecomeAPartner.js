@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
+import WOW from "wowjs";
 
 import FAQ from "./layout/FAQ";
 import "../assets/css/BAP.css";
@@ -13,6 +14,11 @@ import csolution7 from "../assets/icon/csolution7.png";
 import csolution8 from "../assets/icon/csolution8.png";
 
 class BecomeAPartner extends Component {
+
+  componentDidMount() {
+    new WOW.WOW().init();
+  }
+
   render() {
     const settings = {
       className: "center",
@@ -43,8 +49,8 @@ class BecomeAPartner extends Component {
                           Bharose ke saath.
                         </p>
                         <p className="white-text sub-heading">
-                          Become our partner and change the refurbished phone
-                          industry
+                          Become our partner and change the refurbished
+                          phone industry
                         </p>
                       </div>
                     </div>
@@ -178,7 +184,12 @@ class BecomeAPartner extends Component {
               We help you with a complete solution
             </p>
             <div className="row">
-              <div className="col s6 m3">
+              <div
+                className="col s6 m3 wow fadeInLeft"
+                data-wow-duration="1s"
+                data-wow-delay="0.5s"
+                data-wow-offset="100"
+              >
                 <div className="card z-depth-0 center">
                   <div className="csolution-card-image">
                     <img
@@ -195,7 +206,12 @@ class BecomeAPartner extends Component {
                 </div>
               </div>
               <div className="col s6 m3">
-                <div className="card z-depth-0 center">
+                <div
+                  className="card z-depth-0 center wow fadeInDown"
+                  data-wow-duration="1s"
+                  data-wow-delay="0.5s"
+                  data-wow-offset="100"
+                >
                   <div className="csolution-card-image">
                     <img
                       src={csolution2}
@@ -211,7 +227,12 @@ class BecomeAPartner extends Component {
                 </div>
               </div>
               <div className="col s6 m3">
-                <div className="card z-depth-0 center">
+                <div
+                  className="card z-depth-0 center wow fadeInDown"
+                  data-wow-duration="1s"
+                  data-wow-delay="0.5s"
+                  data-wow-offset="100"
+                >
                   <div className="csolution-card-image">
                     <img
                       src={csolution3}
@@ -227,7 +248,12 @@ class BecomeAPartner extends Component {
                 </div>
               </div>
               <div className="col s6 m3">
-                <div className="card z-depth-0 center">
+                <div
+                  className="card z-depth-0 center wow fadeInRight"
+                  data-wow-duration="1s"
+                  data-wow-delay="0.5s"
+                  data-wow-offset="100"
+                >
                   <div className="csolution-card-image">
                     <img
                       src={csolution4}
@@ -245,7 +271,12 @@ class BecomeAPartner extends Component {
             </div>
             <div className="row">
               <div className="col s6 m3">
-                <div className="card z-depth-0 center">
+                <div
+                  className="card z-depth-0 center wow fadeInLeft"
+                  data-wow-duration="1s"
+                  data-wow-delay="0.5s"
+                  data-wow-offset="100"
+                >
                   <div className="csolution-card-image">
                     <img
                       src={csolution5}
@@ -261,7 +292,12 @@ class BecomeAPartner extends Component {
                 </div>
               </div>
               <div className="col s6 m3">
-                <div className="card z-depth-0 center">
+                <div
+                  className="card z-depth-0 center wow fadeInUp"
+                  data-wow-duration="1s"
+                  data-wow-delay="0.5s"
+                  data-wow-offset="100"
+                >
                   <div className="csolution-card-image">
                     <img
                       src={csolution6}
@@ -277,7 +313,12 @@ class BecomeAPartner extends Component {
                 </div>
               </div>
               <div className="col s6 m3">
-                <div className="card z-depth-0 center">
+                <div
+                  className="card z-depth-0 center wow fadeInUp"
+                  data-wow-duration="1s"
+                  data-wow-delay="0.5s"
+                  data-wow-offset="100"
+                >
                   <div className="csolution-card-image">
                     <img
                       src={csolution7}
@@ -296,7 +337,12 @@ class BecomeAPartner extends Component {
                 </div>
               </div>
               <div className="col s6 m3">
-                <div className="card z-depth-0 center">
+                <div
+                  className="card z-depth-0 center wow fadeInRight"
+                  data-wow-duration="1s"
+                  data-wow-delay="0.5s"
+                  data-wow-offset="100"
+                >
                   <div className="csolution-card-image">
                     <img
                       src={csolution8}
@@ -318,7 +364,13 @@ class BecomeAPartner extends Component {
           </div>
         </div>
 
-        <div id="bap-landing4" className="homepage_div_break">
+        <div
+          id="bap-landing4"
+          className="homepage_div_break wow zoomIn"
+          data-wow-duration="1s"
+          data-wow-delay="0.5s"
+          data-wow-offset="250"
+        >
           <div className="container">
             <p className="sub-main-heading center grey-text text-darken-2">
               Hear from Our Partners
@@ -329,8 +381,8 @@ class BecomeAPartner extends Component {
                   <div className="card-content">
                     <p>
                       I am now able to buy lot of different models and have
-                      quadruppled my business with reCash. I spend 5-6 hours a
-                      day bidding on reCash channel partner app.
+                      quadruppled my business with reCash. I spend 5-6 hours
+                      a day bidding on reCash channel partner app.
                     </p>
                   </div>
                 </div>
@@ -353,7 +405,13 @@ class BecomeAPartner extends Component {
           </div>
         </div>
 
-        <div id="bap-landing5" className="homepage_div_break">
+        <div
+          id="bap-landing5"
+          className="homepage_div_break wow fadeIn"
+          data-wow-duration="1s"
+          data-wow-delay="0.5s"
+          data-wow-offset="250"
+        >
           <div className="container-fluid">
             <div className="landing5-image">
               <div className="bap-landing-overlay">
@@ -365,7 +423,10 @@ class BecomeAPartner extends Component {
                     <p className="main-heading white-text">
                       Ready to Partner with reCash.
                     </p>
-                    <button className="custom_action_button" style={{width: "300px"}}>
+                    <button
+                      className="custom_action_button"
+                      style={{ width: "300px" }}
+                    >
                       GET STARTED
                     </button>
                   </div>
@@ -375,7 +436,13 @@ class BecomeAPartner extends Component {
           </div>
         </div>
 
-        <div id="faq" className="homepage_div_break">
+        <div
+          id="faq"
+          className="homepage_div_break wow bounceIn"
+          data-wow-duration="1s"
+          data-wow-delay="0.5s"
+          data-wow-offset="250"
+        >
           <div className="container">
             <FAQ />
           </div>

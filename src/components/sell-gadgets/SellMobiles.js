@@ -4,6 +4,9 @@ import FAQ from "../layout/FAQ";
 import { Scrollbars } from "react-custom-scrollbars";
 import axios from "axios";
 import Swal from "sweetalert2";
+import ReactModal from "react-modal";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import "../../assets/css/SellMobile.css";
 import mobiles from "../../data/phone_data";
@@ -24,7 +27,9 @@ class SellMobiles extends Component {
       mobile_number: "",
       progress_bar_state: 0,
       progress_bar_state_2: 0,
-      data: {}
+      data: {},
+      isAddressModalOpen: false,
+      date: new Date()
     };
 
     this.selected_phone_data = [];
@@ -37,19 +42,22 @@ class SellMobiles extends Component {
     this.afterChangeHandler = this.afterChangeHandler.bind(this);
     this.createGetPriceRequest = this.createGetPriceRequest.bind(this);
     this.getPrice = this.getPrice.bind(this);
+    this.openAddressModal = this.openAddressModal.bind(this);
+    this.closeAddressModal = this.closeAddressModal.bind(this);
+    this.handleAddressSubmit = this.handleAddressSubmit.bind(this);
   }
 
   componentDidMount() {
     axios
-      .get(
-        "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/phone_data"
-      )
+      .get("/api/phone_data")
       .then(res => {
         this.setState({ data: res.data });
       })
       .catch(() => {
         this.setState({ data: mobiles });
       });
+
+    ReactModal.setAppElement("#root");
   }
 
   gd_click(key, id) {
@@ -126,7 +134,7 @@ class SellMobiles extends Component {
         newState.progress_bar_state_2 = 100;
       } else {
         newState.progress_bar_state = currentSlide * 12.5;
-        newState.proggress_bar_state_2 = 0;
+        newState.progress_bar_state_2 = 0;
       }
       return newState;
     });
@@ -153,17 +161,12 @@ class SellMobiles extends Component {
       return (post_data[item] = "present");
     });
 
-    axios
-      .post(
-        "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/get_price",
-        post_data
-      )
-      .then(res => {
-        this.setState({
-          calculated_price: res.data.price,
-          itemId: res.data.search_id
-        });
+    axios.post("/api/get_price", post_data).then(res => {
+      this.setState({
+        calculated_price: res.data.price,
+        itemId: res.data.search_id
       });
+    });
   }
 
   getPrice() {
@@ -178,12 +181,9 @@ class SellMobiles extends Component {
             setTimeout(() => this.slider.slickNext(), 500);
           } else {
             axios
-              .post(
-                "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/user/login",
-                {
-                  phone: this.state.mobile_number
-                }
-              )
+              .post("/api/user/login", {
+                phone: this.state.mobile_number
+              })
               .then(res => {
                 Swal.fire({
                   title: "OTP Verification",
@@ -198,10 +198,7 @@ class SellMobiles extends Component {
                   showLoaderOnConfirm: true,
                   preConfirm: otp => {
                     return axios
-                      .post(
-                        "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/user/verifyotp",
-                        { otp: otp }
-                      )
+                      .post("/api/user/verifyotp", { otp: otp })
                       .then(res => {
                         return res.data;
                       });
@@ -229,7 +226,7 @@ class SellMobiles extends Component {
               })
               .catch(() => {
                 Swal.fire({
-                  title: "Oops",
+                  title: "Oops!",
                   text: "Something went wrong! Please try again.",
                   type: "error"
                 });
@@ -243,6 +240,27 @@ class SellMobiles extends Component {
         type: "error"
       });
     }
+  }
+
+  openAddressModal() {
+    this.setState({ isAddressModalOpen: true });
+  }
+
+  closeAddressModal() {
+    this.setState({ isAddressModalOpen: false });
+  }
+
+  handleAddressSubmit(e) {
+    e.preventDefault();
+
+    let post_data = {
+      flat_number: this.state.user_house_no,
+      locality: this.state.user_locality,
+      landmark: this.state.user_landmark,
+      pincode: this.state.user_pincode,
+      city: this.state.user_city
+    };
+    axios.post("/api/me/address/new", post_data).then(res => {});
   }
 
   render() {
@@ -895,6 +913,303 @@ class SellMobiles extends Component {
       </div>
     );
 
+    const gadget_details_9 = (
+      <div id="book_appointment">
+        <div className="sell_phone_heading">
+          <p>
+            <i>Great!</i> The quote is 10% higher than last month.
+          </p>
+        </div>
+        <div className="pseudoContainer">
+          <div className="row">
+            <div className="col s12 m8">
+              <div className="container-fluid">
+                <div className="bookAppointmentNavbar">
+                  <div className="row">
+                    <div className="col s4" />
+                  </div>
+                </div>
+              </div>
+              <div className="card horizontal">
+                <div className="card-image">
+                  <img
+                    src={this.selected_mobile_image}
+                    alt={this.state.model}
+                    title={this.state.model}
+                  />
+                </div>
+                <div className="card-stacked">
+                  <div className="card-content">
+                    <span className="card-title" style={{ fontWeight: "500" }}>
+                      {this.state.model}, {this.state.variant}
+                    </span>
+                    <div className="container-fluid">
+                      <div className="row">
+                        <div className="col s8">
+                          <p className="grey-text text-darken-1">Device Life</p>
+                        </div>
+                        <div className="col s4">
+                          <p>{this.state.old_device}</p>
+                        </div>
+                        <div className="col s8">
+                          <p className="grey-text text-darken-1">
+                            Display Condition
+                          </p>
+                        </div>
+                        <div className="col s4">
+                          <p>{this.state.display_condition}</p>
+                        </div>
+                        <div className="col s8">
+                          <p className="grey-text text-darken-1">
+                            Overall Condition
+                          </p>
+                        </div>
+                        <div className="col s4">
+                          <p>{this.state.overall_condition}</p>
+                        </div>
+                        <div className="col s12">
+                          <p>Acessories Available</p>
+                          <p>{this.state.original_accesories_available}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col s12 m4">
+              <div className="card">
+                <div className="card-content">
+                  <span
+                    className="card-title"
+                    style={{
+                      fontWeight: "500"
+                    }}
+                  >
+                    Price Breakup
+                  </span>
+                  <hr />
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div className="col s8">
+                        <p className="grey-text text-darken-1">Offer Price</p>
+                      </div>
+                      <div className="col s4">
+                        <p>{this.state.calculated_price}</p>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col s8">
+                        <p className="grey-text text-darken-1">
+                          Pickup Charges
+                        </p>
+                      </div>
+                      <div className="col s4">
+                        <p className="red-text">FREE</p>
+                      </div>
+                    </div>
+                    <hr />
+                    <div className="row">
+                      <div className="col s8">
+                        <p className="grey-text text-darken-1">Total</p>
+                      </div>
+                      <div className="col s4">
+                        <p>
+                          <b>{this.state.calculated_price}</b>
+                        </p>
+                      </div>
+                    </div>
+                    <hr />
+                    <div className="row">
+                      <div className="col s12">
+                        <p>Have a coupon code?</p>
+                        <input
+                          type="text"
+                          placeholder="ENTER CODE"
+                          style={{ width: "60%" }}
+                        />
+                        <button
+                          className="custom_button"
+                          style={{ float: "right" }}
+                        >
+                          Apply
+                        </button>
+                        <button
+                          className="custom_action_button"
+                          style={{
+                            width: "100%",
+                            margin: "1rem 0"
+                          }}
+                          onClick={() => this.slider.slickNext()}
+                        >
+                          Sell Now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    const gadget_details_10 = (
+      <div id="sell_phone">
+        <div className="pseudoContainer">
+          <div className="row">
+            <div className="col s12 m8">
+              <div className="card">
+                <div className="card-content">
+                  <div id="add_address">
+                    <button
+                      className="custom_button"
+                      onClick={this.openAddressModal}
+                    >
+                      Add New Address
+                    </button>
+                    <ReactModal
+                      isOpen={this.state.isAddressModalOpen}
+                      onRequestClose={this.closeAddressModal}
+                      shouldCloseOnOverlayClick={true}
+                      style={{
+                        overlay: {
+                          backgroundColor: "rgba(0,0,0,0.5)"
+                        },
+                        content: {
+                          backgroundColor: "#fff",
+                          maxWidth: "80vw",
+                          width: "800px",
+                          margin: "auto",
+                          height: "600px",
+                          padding: "2.5rem"
+                        }
+                      }}
+                    >
+                      <p>Add Address</p>
+                      <form
+                        noValidate
+                        autoComplete="off"
+                        onSubmit={this.handleAddressSubmit}
+                      >
+                        <div className="input-field">
+                          <input
+                            type="text"
+                            id="user_house_number"
+                            className="validate"
+                            onChange={event => {
+                              this.setState({
+                                user_house_no: event.target.value
+                              });
+                            }}
+                          />
+                          <label htmlFor="user_house_number">
+                            House No.
+                          </label>
+                        </div>
+                        <div className="input-field">
+                          <input
+                            type="text"
+                            id="user_locality"
+                            className="validate"
+                            onChange={event => {
+                              this.setState({
+                                user_locality: event.target.value
+                              });
+                            }}
+                          />
+                          <label htmlFor="user_locality">Locality</label>
+                        </div>
+                        <div className="input-field">
+                          <input
+                            type="text"
+                            id="user_landmark"
+                            className="validate"
+                            onChange={event => {
+                              this.setState({
+                                user_landmark: event.target.value
+                              });
+                            }}
+                          />
+                          <label htmlFor="user_landmark">Landmark</label>
+                        </div>
+                        <div className="input-field">
+                          <input
+                            type="text"
+                            id="user_city"
+                            className="validate"
+                            onChange={event => {
+                              this.setState({
+                                user_city: event.target.value
+                              });
+                            }}
+                          />
+                          <label htmlFor="user_city">City</label>
+                        </div>
+                        <div className="input-field">
+                          <input
+                            type="number"
+                            id="user_pincode"
+                            className="validate"
+                            onChange={event => {
+                              this.setState({
+                                user_pincode: event.target.value
+                              });
+                            }}
+                          />
+                          <label htmlFor="user_pincode">Pincode</label>
+                        </div>
+                        <button
+                          type="submit"
+                          className="custom_action_button"
+                          style={{ width: "200px", padding: "0.2rem" }}
+                        >
+                          SAVE
+                        </button>
+                      </form>
+                    </ReactModal>
+                    <div className="card">
+                      <div className="card-content" />
+                    </div>
+                  </div>
+                  <div id="select_date">
+                    <div className="">
+                      <i className="material-icons prefix">date_range</i>
+                      <DatePicker
+                        selected={this.state.date}
+                        onChange={date => {
+                          this.setState({ date: date });
+                        }}
+                        dateFormat="dd/MM/yyyy"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col s12 m4">
+              <div className="card">
+                <div className="card-content">
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div className="col s8">
+                        <p>Quote Locked</p>
+                      </div>
+                      <div className="col s4">
+                        <p>{this.state.calculated_price}</p>
+                      </div>
+                    </div>
+                    <hr />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
     return (
       <div id="landing">
         <section>
@@ -920,191 +1235,8 @@ class SellMobiles extends Component {
                     <div className="sliders_div">{gadget_details_6}</div>
                     <div className="sliders_div">{gadget_details_7}</div>
                     <div className="sliders_div">{gadget_details_8}</div>
-                    <div className="sliders_div">
-                      <div id="book_appointment">
-                        <div className="sell_phone_heading">
-                          <p>
-                            <i>Great!</i> The quote is 10% higher than last
-                            month.
-                          </p>
-                        </div>
-                        <div className="pseudoContainer">
-                          <div className="row">
-                            <div className="col s12 m8">
-                              <div className="container-fluid">
-                                <div className="bookAppointmentNavbar">
-                                  <div className="row">
-                                    <div className="col s4" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="card horizontal">
-                                <div className="card-image">
-                                  <img
-                                    src={this.selected_mobile_image}
-                                    alt={this.state.model}
-                                    title={this.state.model}
-                                  />
-                                </div>
-                                <div className="card-stacked">
-                                  <div className="card-content">
-                                    <span
-                                      className="card-title"
-                                      style={{ fontWeight: "500" }}
-                                    >
-                                      {this.state.model}, {this.state.variant}
-                                    </span>
-                                    <div className="container-fluid">
-                                      <div className="row">
-                                        <div className="col s8">
-                                          <p className="grey-text text-darken-1">
-                                            Device Life
-                                          </p>
-                                        </div>
-                                        <div className="col s4">
-                                          <p>{this.state.old_device}</p>
-                                        </div>
-                                        <div className="col s8">
-                                          <p className="grey-text text-darken-1">
-                                            Display Condition
-                                          </p>
-                                        </div>
-                                        <div className="col s4">
-                                          <p>{this.state.display_condition}</p>
-                                        </div>
-                                        <div className="col s8">
-                                          <p className="grey-text text-darken-1">
-                                            Overall Condition
-                                          </p>
-                                        </div>
-                                        <div className="col s4">
-                                          <p>{this.state.overall_condition}</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col s12 m4">
-                              <div className="card">
-                                <div className="card-content">
-                                  <span
-                                    className="card-title"
-                                    style={{
-                                      fontWeight: "500"
-                                    }}
-                                  >
-                                    Price Breakup
-                                  </span>
-                                  <hr />
-                                  <div className="container-fluid">
-                                    <div className="row">
-                                      <div className="col s8">
-                                        <p className="grey-text text-darken-1">
-                                          Offer Price
-                                        </p>
-                                      </div>
-                                      <div className="col s4">
-                                        <p>{this.state.calculated_price}</p>
-                                      </div>
-                                    </div>
-                                    <div className="row">
-                                      <div className="col s8">
-                                        <p className="grey-text text-darken-1">
-                                          Pickup Charges
-                                        </p>
-                                      </div>
-                                      <div className="col s4">
-                                        <p className="red-text">FREE</p>
-                                      </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                      <div className="col s8">
-                                        <p className="grey-text text-darken-1">
-                                          Total
-                                        </p>
-                                      </div>
-                                      <div className="col s4">
-                                        <p>
-                                          <b>{this.state.calculated_price}</b>
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                      <div className="col s12">
-                                        <p>Have a coupon code?</p>
-                                        <input
-                                          type="text"
-                                          placeholder="ENTER CODE"
-                                          style={{ width: "60%" }}
-                                        />
-                                        <button
-                                          className="custom_button"
-                                          style={{ float: "right" }}
-                                        >
-                                          Apply
-                                        </button>
-                                        <button
-                                          className="custom_action_button"
-                                          style={{
-                                            width: "100%",
-                                            margin: "1rem 0"
-                                          }}
-                                          onClick={() =>
-                                            this.slider.slickNext()
-                                          }
-                                        >
-                                          Sell Now
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="sliders_div">
-                      <div id="sell_phone">
-                        <div className="pseudoContainer">
-                          <div className="row">
-                            <div className="col s12 m8">
-                              <div className="card">
-                                <div className="card-content">
-                                  <div id="add_address">
-                                    <button>Add New Address</button>
-                                    <p>Saved Address</p>
-                                  </div>
-                                  <div id="select_date" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col s12 m4">
-                              <div className="card">
-                                <div className="card-content">
-                                  <div className="container-fluid">
-                                    <div className="row">
-                                      <div className="col s8">
-                                        <p>Quote Locked</p>
-                                      </div>
-                                      <div className="col s4">
-                                        <p>{this.state.calculated_price}</p>
-                                      </div>
-                                    </div>
-                                    <hr />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <div className="sliders_div">{gadget_details_9}</div>
+                    <div className="sliders_div">{gadget_details_10}</div>
                   </Slider>
                 </div>
               </div>
