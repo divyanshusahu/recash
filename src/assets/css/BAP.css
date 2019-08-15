@@ -82,8 +82,8 @@
 }
 
 @media only screen and (max-width: 600px) {
-  #become-a-partner .bap-landing {
-    min-height: 100vh;
+  #become-a-partner #bap-landing {
+    height: 150vh;
   }
 
   #become-a-partner .landing5-image {
