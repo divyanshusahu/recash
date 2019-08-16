@@ -7,6 +7,7 @@
   width: 12px;
   height: 12px;
   border-radius: 100%;
+  transition: all 0.5s linear;
 }
 
 .baricon.active {
@@ -89,6 +90,8 @@
   height: 100px;
   cursor: pointer;
   transition: all 0.2s linear;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 0.5rem;
 }
 
 .brandsLogo.active {
@@ -139,9 +142,9 @@
   border: 1px solid #ef6c00;
 }
 
-.slick-dots {
+/*.slick-dots {
   pointer-events: none;
-}
+}*/
 
 .slick-dots li {
   width: 8px;
@@ -228,7 +231,7 @@ hr {
 }
 
 .sliders_div {
-  min-height: 500px;
+  height: 600px;
 }
 
 .bookAppointmentNavbar {

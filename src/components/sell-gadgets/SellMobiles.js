@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-import FAQ from "../layout/FAQ";
 import { Scrollbars } from "react-custom-scrollbars";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -10,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import "../../assets/css/SellMobile.css";
 import mobiles from "../../data/phone_data";
-import baba from "../../assets/img/baba.gif";
+import MobileTesting from "../../assets/img/MobileTesting.png";
 
 class SellMobiles extends Component {
   constructor() {
@@ -275,7 +274,14 @@ class SellMobiles extends Component {
               "--sell-progress": this.state.progress_bar_state.toString() + "%"
             }}
           />
-          <span className="baricon orange" />
+          <span
+            className={
+              "baricon " +
+              (this.state.progress_bar_state < 100
+                ? "grey lighten-2"
+                : "orange active")
+            }
+          />
           <span
             id="progress_2"
             className="line_progress"
@@ -284,7 +290,14 @@ class SellMobiles extends Component {
                 this.state.progress_bar_state_2.toString() + "%"
             }}
           />
-          <span className="baricon orange" />
+          <span
+            className={
+              "baricon " +
+              (this.state.progress_bar_state_2 < 100
+                ? "grey lighten-2"
+                : "orange active")
+            }
+          />
         </div>
 
         <div className="progressbar_info">
@@ -319,7 +332,7 @@ class SellMobiles extends Component {
       mobile_data = this.state.data.mobiles.map(item => (
         <div
           className={
-            "col s4 m3 l2 brandsLogo " +
+            "col s6 m4 l3 brandsLogo " +
             (this.state.brand === item.brand ? "active" : null)
           }
           key={item.brand}
@@ -345,7 +358,7 @@ class SellMobiles extends Component {
           <span className="grey-text">Select Your Phone Brand</span>
         </div>
         <div id="selection1" className="selection">
-          <Scrollbars style={{ height: "350px" }} autoHide>
+          <Scrollbars style={{ height: "500px" }} autoHide>
             <div className="pseudoContainer">
               <div className="row">{mobile_data}</div>
             </div>
@@ -378,9 +391,9 @@ class SellMobiles extends Component {
     const gadget_details_2 = (
       <div id="gadget_details_2" className="gadget_detail">
         <div className="sell_phone_heading">
-          <p>Select Phone Modal</p>
+          <p>Select Phone Model</p>
           <div id="selection2" className="selection">
-            <Scrollbars style={{ height: "350px" }} autoHide>
+            <Scrollbars style={{ height: "500px" }} autoHide>
               <div className="pseudoContainer">
                 <div className="row">{phone_data}</div>
               </div>
@@ -495,51 +508,51 @@ class SellMobiles extends Component {
           <p>Whats is the condition of your phone display?</p>
         </div>
         <div id="selection5" className="selection">
-          {/*<Scrollbars style={{ height: "300px" }} autoHide>*/}
-          <div className="pseudoContainer">
-            <div className="row">
-              <div className="col s12 m5">
-                <div
-                  className={
-                    "card " +
-                    (this.state.display_condition === "on" ? "active" : null)
-                  }
-                  onClick={() => this.gd_click("display_condition", "on")}
-                >
-                  <div className="card-content">
-                    <span className="card-title">Good Display</span>
-                    <ul>
-                      <li>Touch Working</li>
-                      <li>No Spots on Display</li>
-                      <li>No Lines on Display</li>
-                      <li>No Scratches</li>
-                    </ul>
+          <Scrollbars style={{ height: "500px" }} autoHide>
+            <div className="pseudoContainer">
+              <div className="row">
+                <div className="col s12 m5">
+                  <div
+                    className={
+                      "card " +
+                      (this.state.display_condition === "on" ? "active" : null)
+                    }
+                    onClick={() => this.gd_click("display_condition", "on")}
+                  >
+                    <div className="card-content">
+                      <span className="card-title">Good Display</span>
+                      <ul>
+                        <li>Touch Working</li>
+                        <li>No Spots on Display</li>
+                        <li>No Lines on Display</li>
+                        <li>No Scratches</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col s12 m5 offset-m2">
-                <div
-                  className={
-                    "card " +
-                    (this.state.display_condition === "off" ? "active" : null)
-                  }
-                  onClick={() => this.gd_click("display_condition", "off")}
-                >
-                  <div className="card-content">
-                    <span className="card-title">Faulty Display</span>
-                    <ul>
-                      <li>Touch Faulty</li>
-                      <li>Screen Cacked</li>
-                      <li>Heavy Scratches</li>
-                      <li>Visible Lines</li>
-                      <li>Display Discoloration</li>
-                    </ul>
+                <div className="col s12 m5 offset-m2">
+                  <div
+                    className={
+                      "card " +
+                      (this.state.display_condition === "off" ? "active" : null)
+                    }
+                    onClick={() => this.gd_click("display_condition", "off")}
+                  >
+                    <div className="card-content">
+                      <span className="card-title">Faulty Display</span>
+                      <ul>
+                        <li>Touch Faulty</li>
+                        <li>Screen Cacked</li>
+                        <li>Heavy Scratches</li>
+                        <li>Visible Lines</li>
+                        <li>Display Discoloration</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          {/*</Scrollbars>*/}
+          </Scrollbars>
         </div>
       </div>
     );
@@ -614,7 +627,7 @@ class SellMobiles extends Component {
           <p>Any other issues with your device?</p>
         </div>
         <div id="selection7" className="selection">
-          <Scrollbars style={{ height: "450px" }} autoHide>
+          <Scrollbars style={{ height: "500px" }} autoHide>
             <div className="pseudoContainer">
               <div className="row">
                 <div className="col s6 m5">
@@ -1104,9 +1117,7 @@ class SellMobiles extends Component {
                               });
                             }}
                           />
-                          <label htmlFor="user_house_number">
-                            House No.
-                          </label>
+                          <label htmlFor="user_house_number">House No.</label>
                         </div>
                         <div className="input-field">
                           <input
@@ -1215,7 +1226,7 @@ class SellMobiles extends Component {
         <section>
           <div className="container-fluid">
             <div className="row">
-              <div className="col s12 m8 offset-m2">
+              <div className="col s12 l7 offset-l1">
                 {progressBar}
 
                 <div id="sell_phone">
@@ -1240,18 +1251,15 @@ class SellMobiles extends Component {
                   </Slider>
                 </div>
               </div>
-              <div className="col s12 m5 hide">
-                <img src={baba} alt="baba" width="100%" />
+              <div
+                className="col s12 l4 hide-on-med-and-down"
+                style={{ marginTop: "100px" }}
+              >
+                <img src={MobileTesting} alt="Mobile Testing" width="100%" />
               </div>
             </div>
           </div>
         </section>
-
-        <div className="homepage_div_break">
-          <div className="container">
-            <FAQ />
-          </div>
-        </div>
       </div>
     );
   }
