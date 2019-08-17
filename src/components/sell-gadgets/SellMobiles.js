@@ -171,66 +171,65 @@ class SellMobiles extends Component {
   getPrice() {
     if (this.state.mobile_number && this.state.mobile_number.length >= 10) {
       axios
-        .get(
-          "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/me"
-        )
+        .get("/api/me")
         .then(res => {
           if (res.data.status) {
             this.createGetPriceRequest();
             setTimeout(() => this.slider.slickNext(), 500);
-          } else {
-            axios
-              .post("/api/user/login", {
-                phone: this.state.mobile_number
-              })
-              .then(res => {
-                Swal.fire({
-                  title: "OTP Verification",
-                  input: "text",
-                  inputAttributes: {
-                    autocapitalize: "off"
-                  },
-                  text:
-                    "Plese enter the six digit OTP that was sent to your mobile",
-                  showCancelButton: true,
-                  confirmButtonText: "Submit",
-                  showLoaderOnConfirm: true,
-                  preConfirm: otp => {
-                    return axios
-                      .post("/api/user/verifyotp", { otp: otp })
-                      .then(res => {
-                        return res.data;
-                      });
-                  },
-                  allowOutsideClick: () => !Swal.isLoading()
-                }).then(result => {
-                  if (result.value) {
-                    if (result.value.status) {
-                      Swal.fire({
-                        title: "Success",
-                        type: "success",
-                        text: "Login Successful"
-                      });
-                      this.createGetPriceRequest();
-                      setTimeout(() => this.slider.slickNext(), 1000);
-                    } else {
-                      Swal.fire({
-                        title: "OTP Verification",
-                        type: "error",
-                        text: result.value.message
-                      });
-                    }
-                  }
-                });
-              })
-              .catch(() => {
-                Swal.fire({
-                  title: "Oops!",
-                  text: "Something went wrong! Please try again.",
-                  type: "error"
-                });
-              });
           }
+        })
+        .catch(() => {
+          axios
+            .post("/api/user/login", {
+              phone: this.state.mobile_number
+            })
+            .then(res => {
+              Swal.fire({
+                title: "OTP Verification",
+                input: "text",
+                inputAttributes: {
+                  autocapitalize: "off"
+                },
+                text:
+                  "Plese enter the six digit OTP that was sent to your mobile",
+                showCancelButton: true,
+                confirmButtonText: "Submit",
+                showLoaderOnConfirm: true,
+                preConfirm: otp => {
+                  return axios
+                    .post("/api/user/verifyotp", { otp: otp })
+                    .then(res => {
+                      return res.data;
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+              }).then(result => {
+                if (result.value) {
+                  if (result.value.status) {
+                    Swal.fire({
+                      title: "Success",
+                      type: "success",
+                      text: "Login Successful"
+                    });
+                    this.createGetPriceRequest();
+                    setTimeout(() => this.slider.slickNext(), 1000);
+                  } else {
+                    Swal.fire({
+                      title: "OTP Verification",
+                      type: "error",
+                      text: result.value.message
+                    });
+                  }
+                }
+              });
+            })
+            .catch(() => {
+              Swal.fire({
+                title: "Oops!",
+                text: "Something went wrong! Please try again.",
+                type: "error"
+              });
+            });
         });
     } else {
       Swal.fire({
@@ -330,20 +329,18 @@ class SellMobiles extends Component {
     var mobile_data = [];
     try {
       mobile_data = this.state.data.mobiles.map(item => (
-        <div
-          className={
-            "col s6 m4 l3 brandsLogo " +
-            (this.state.brand === item.brand ? "active" : null)
-          }
-          key={item.brand}
-          onClick={() => this.gd_click("brand", item.brand)}
-        >
+        <div className="col s6 m4 l3 brandsLogo" key={item.brand}>
           <img
             src={item.img}
             alt={item.brand}
             title={item.brand}
             width="90%"
             height="90%"
+            className={
+              "brandsImage " +
+              (this.state.brand === item.brand ? "active" : null)
+            }
+            onClick={() => this.gd_click("brand", item.brand)}
           />
         </div>
       ));
@@ -372,15 +369,17 @@ class SellMobiles extends Component {
       phone_data = this.selected_phone_data.map((item, index) => {
         return (
           <div className="col s6 m4" key={index}>
-            <button
-              className={
-                "custom_button " +
-                (this.state.model === item.model ? "active" : null)
-              }
-              onClick={() => this.gd_click("model", item.model)}
-            >
-              {item.model}
-            </button>
+            <div style={{padding: "0.5rem"}}>
+              <button
+                className={
+                  "custom_button " +
+                  (this.state.model === item.model ? "active" : null)
+                }
+                onClick={() => this.gd_click("model", item.model)}
+              >
+                {item.model}
+              </button>
+            </div>
           </div>
         );
       });
@@ -408,15 +407,17 @@ class SellMobiles extends Component {
       variant_data = this.selected_phone_variant_data.map((item, index) => {
         return (
           <div className="col s6 m5" key={index}>
-            <button
-              className={
-                "custom_button " +
-                (this.state.variant === item ? "active" : null)
-              }
-              onClick={() => this.gd_click("variant", item)}
-            >
-              {item}
-            </button>
+            <div style={{padding: "0.5rem"}}>
+              <button
+                className={
+                  "custom_button " +
+                  (this.state.variant === item ? "active" : null)
+                }
+                onClick={() => this.gd_click("variant", item)}
+              >
+                {item}
+              </button>
+            </div>
           </div>
         );
       });

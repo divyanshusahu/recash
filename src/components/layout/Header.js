@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Headroom from "react-headroom";
-//import axios from "axios";
+import axios from "axios";
 import { signupToggle } from "../../actions/signupToggleActions";
 
 import logo from "../../assets/img/logo.svg";
@@ -19,18 +19,16 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    /*if (document.cookie) {
-      axios
-        .get(
-          "http://ec2-52-15-171-173.us-east-2.compute.amazonaws.com:3000/api/me"
-        )
-        .then(res => {
-          this.setState({
-            isAuthenticated: res.data.status,
-            user: res.data["account"]["phone"]
-          });
+    axios
+      .get(
+        "/api/me"
+      )
+      .then(res => {
+        this.setState({
+          isAuthenticated: res.data.status,
+          user: res.data["account"]["phone"]
         });
-    }*/
+      });
   }
 
   render() {

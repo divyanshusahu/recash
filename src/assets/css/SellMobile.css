@@ -88,13 +88,16 @@
 
 .brandsLogo {
   height: 100px;
-  cursor: pointer;
-  transition: all 0.2s linear;
-  border: 1px solid rgba(0,0,0,0.2);
-  border-radius: 0.5rem;
 }
 
-.brandsLogo.active {
+.brandsImage {
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+.brandsImage.active {
   border: 1px solid #ef6c00;
 }
 
