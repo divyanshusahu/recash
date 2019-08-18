@@ -71,11 +71,6 @@
   height: 100%;
 }
 
-.sell_phone_heading p {
-  font-size: 2em;
-  font-weight: 750;
-}
-
 .pseudoContainer {
   width: 100%;
   height: 100%;
@@ -99,6 +94,7 @@
 
 .brandsImage.active {
   border: 1px solid #ef6c00;
+  background-color: rgba(255, 183, 77, 0.4);
 }
 
 .selection {
@@ -141,6 +137,46 @@
 
 .custom_button.active {
   background-color: #ffb74d;
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ef6c00;
+}
+
+.problems_card {
+  cursor: pointer;
+  padding:1rem 0;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 0.5rem;
+}
+
+.problems_card img {
+  margin: auto;
+  width: 64px;
+  height: 64px;
+}
+
+.problems_card.active {
+  background-color: rgba(255,183,77,0.4);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ef6c00;
+}
+
+.accessories_card {
+  cursor: pointer;
+  padding:0.25rem 1rem;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.accessories_card img {
+  width: 48px;
+  height: 48px;
+}
+
+.accessories_card.active {
+  background-color: rgba(255,183,77,0.4);
   box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.2);
   border: 1px solid #ef6c00;
 }
