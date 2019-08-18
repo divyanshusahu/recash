@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import store from "./store";
 
@@ -22,10 +22,12 @@ function App() {
         <div className="wrapper">
           <SignUp />
           <Header />
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/become-a-partner" component={BecomeAPartner} />
-          <Route path="/sell-mobiles" component={SellMobiles} />
-          <Footer />
+	  <Switch>
+		  <Route exact path="/" component={Landing} />
+		  <Route exact path="/become-a-partner" component={BecomeAPartner} />
+		  <Route path="/sell-mobiles" component={SellMobiles} />
+          </Switch>
+	  <Footer />
         </div>
       </Router>
     </Provider>
