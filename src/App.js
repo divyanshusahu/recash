@@ -25,6 +25,7 @@ function App() {
 	  <Switch>
 		  <Route exact path="/" component={Landing} />
 		  <Route exact path="/become-a-partner" component={BecomeAPartner} />
+		  <Route exact path="/blog" component={() => window.location = 'https://recash.in/blog'} />
 		  <Route path="/sell-mobiles" component={SellMobiles} />
           </Switch>
 	  <Footer />
