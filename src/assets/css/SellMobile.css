@@ -81,6 +81,16 @@
   margin-right: 0;
 }
 
+.sell_phone_heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.brand_select {
+  width: 40%;
+}
+
 .brandsLogo {
   height: 100px;
 }

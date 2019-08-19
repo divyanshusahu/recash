@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import Headroom from "react-headroom";
 import axios from "axios";
 import { signupToggle } from "../../actions/signupToggleActions";
+import Drawer from "@material-ui/core/Drawer";
+import Typography from "@material-ui/core/Typography";
 
 import logo from "../../assets/img/logo.svg";
 import "../../assets/css/Navbar.css";
+import cities from "../../data/cities";
+import Select from "react-select";
 
 class Header extends Component {
   constructor() {
@@ -14,21 +18,30 @@ class Header extends Component {
 
     this.state = {
       isAuthenticated: false,
-      user: ""
+      user: "",
+      draweropen: false,
+      selected_city: "New Delhi"
     };
+
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    axios
-      .get(
-        "/api/me"
-      )
-      .then(res => {
-        this.setState({
-          isAuthenticated: res.data.status,
-          user: res.data["account"]["phone"]
-        });
+    axios.get("/api/me").then(res => {
+      this.setState({
+        isAuthenticated: res.data.status,
+        user: res.data["account"]["phone"]
       });
+    });
+  }
+
+  toggleDrawer(t) {
+    this.setState({ draweropen: t });
+  }
+
+  handleChange(option) {
+    this.setState({ selected_city: option.value});
   }
 
   render() {
@@ -49,7 +62,7 @@ class Header extends Component {
                         <span className="red-text">HOME</span>
                       </Link>
                     </li>
-                    <li>
+                    {/*<li>
                       <Link to="#how-it-works">
                         <span className="black-text">HOW IT WORKS</span>
                       </Link>
@@ -63,7 +76,7 @@ class Header extends Component {
                       <Link to="#default_faq">
                         <span className="black-text">FAQ</span>
                       </Link>
-                    </li>
+                    </li>*/}
                     <li>
                       <Link to="/blog">
                         <span className="black-text">BLOG</span>
@@ -85,11 +98,12 @@ class Header extends Component {
                         borderRight: "1px solid rgba(0,0,0,0.2)",
                         fontWeight: "400"
                       }}
+                      onClick={() => this.toggleDrawer(true)}
                     >
                       <Link to="#!">
                         <span className="black-text">
                           <i className="material-icons left">location_on</i>
-                          New Delhi
+                          {this.state.selected_city}
                           <i className="material-icons right">
                             arrow_drop_down
                           </i>
@@ -114,6 +128,31 @@ class Header extends Component {
                       </Link>
                     </li>
                   </ul>
+                  <Drawer
+                    anchor="top"
+                    open={this.state.draweropen}
+                    onClose={() => this.toggleDrawer(false)}
+                  >
+                    <div
+                      style={{
+                        padding: "2rem",
+                        display: "flex",
+                        alignItems: "flex-start",
+                        justifyContent: "space-around",
+                        minHeight: "50vh"
+                      }}
+                    >
+                      <Typography variant="h4" component="p" gutterBottom>
+                        Select city
+                      </Typography>
+                      <Select
+                        options={cities}
+                        name="cities"
+                        className="cities_select"
+                        onChange={this.handleChange}
+                      />
+                    </div>
+                  </Drawer>
                 </div>
               </div>
             </nav>

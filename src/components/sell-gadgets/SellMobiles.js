@@ -5,6 +5,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import ReactModal from "react-modal";
 import DatePicker from "react-datepicker";
+import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 
 import "../../assets/css/SellMobile.css";
@@ -59,6 +60,8 @@ class SellMobiles extends Component {
     this.openAddressModal = this.openAddressModal.bind(this);
     this.closeAddressModal = this.closeAddressModal.bind(this);
     this.handleAddressSubmit = this.handleAddressSubmit.bind(this);
+    this.handleSelectBrand = this.handleSelectBrand.bind(this);
+    this.handleSelectModel = this.handleSelectModel.bind(this);
   }
 
   componentDidMount() {
@@ -135,6 +138,16 @@ class SellMobiles extends Component {
       newState[key].push(id);
       return newState;
     });
+  }
+
+  handleSelectBrand(option) {
+    this.setState({ brand: option.value });
+    setTimeout(this.slider.slickNext(), 1000);
+  }
+
+  handleSelectModel(option) {
+    this.setState({ model: option.value });
+    setTimeout(this.slider.slickNext(), 1000);
   }
 
   prevSlide() {
@@ -338,7 +351,9 @@ class SellMobiles extends Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       arrows: false,
-      adaptiveHeight: false
+      adaptiveHeight: false,
+      draggable: false,
+      vertical: true
     };
 
     var mobile_data = [];
@@ -363,10 +378,28 @@ class SellMobiles extends Component {
       // this can be empty
     }
 
+    var select_mobile_data = [];
+    try {
+      select_mobile_data = this.state.data.mobiles.map(item => {
+        return {
+          label: item.brand,
+          value: item.brand
+        };
+      });
+    } catch {
+      // this can be empty
+    }
+
     const gadget_details_1 = (
       <div id="gadget_details_1" className="gadget_detail">
         <div className="sell_phone_heading">
-          <Typography variant="h4">Select Phone Brand</Typography>
+          <Typography variant="h5" component="p">Select Phone Brand</Typography>
+          <Select
+            options={select_mobile_data}
+            name="brand"
+            className="brand_select"
+            onChange={this.handleSelectBrand}
+          />
         </div>
         <div id="selection1" className="selection">
           <Scrollbars style={{ height: "500px" }} autoHide>
@@ -401,17 +434,35 @@ class SellMobiles extends Component {
       // this can be empty
     }
 
+    var select_model_data = [];
+    try {
+      select_model_data = this.selected_phone_data.map(item => {
+        return {
+          label: item.model,
+          value: item.model
+        };
+      });
+    } catch {
+      // this can be empty
+    }
+
     const gadget_details_2 = (
       <div id="gadget_details_2" className="gadget_detail">
         <div className="sell_phone_heading">
-          <Typography variant="h4">Select Your Phone Model</Typography>
-          <div id="selection2" className="selection">
-            <Scrollbars style={{ height: "500px" }} autoHide>
-              <div className="pseudoContainer">
-                <div className="row">{phone_data}</div>
-              </div>
-            </Scrollbars>
-          </div>
+          <Typography variant="h5" component="p">Select Your Phone Model</Typography>
+          <Select
+            options={select_model_data}
+            name="model"
+            className="brand_select"
+            onChange={this.handleSelectModel}
+          />
+        </div>
+        <div id="selection2" className="selection">
+          <Scrollbars style={{ height: "500px" }} autoHide>
+            <div className="pseudoContainer">
+              <div className="row">{phone_data}</div>
+            </div>
+          </Scrollbars>
         </div>
       </div>
     );
@@ -442,7 +493,7 @@ class SellMobiles extends Component {
     const gadget_details_3 = (
       <div id="gadget_details_3" className="gadget_detail">
         <div className="sell_phone_heading">
-          <Typography variant="h4">Select your Phone Variant</Typography>
+          <Typography variant="h5">Select your Phone Variant</Typography>
         </div>
         <div id="selection3" className="selection">
           <div className="row">{variant_data}</div>
@@ -452,8 +503,8 @@ class SellMobiles extends Component {
 
     const gadget_details_11 = (
       <div id="gadget_details_11" className="gadget_detail">
-        <div className="sell_phone_heading">
-          <Typography variant="h4" gutterBottom>
+        <div className="">
+          <Typography variant="h5" gutterBottom>
             Does your Phone Switch On?
           </Typography>
           <Typography variant="h6" component="p" color="textSecondary">
@@ -561,7 +612,7 @@ class SellMobiles extends Component {
 
     const gadget_details_5 = (
       <div id="gadget_details_5" className="gadget_detail">
-        <div className="sell_phone_heading">
+        <div className="">
           <Typography variant="h4" component="p" gutterBottom>
             Are there any problems with your mobile screens?
           </Typography>
@@ -640,7 +691,7 @@ class SellMobiles extends Component {
 
     const gadget_details_6 = (
       <div id="gadget_details_6" className="gadget_detail">
-        <div className="sell_phone_heading">
+        <div className="">
           <Typography variant="h4" component="p" gutterBottom>
             Is your phone under warranty ?
           </Typography>
@@ -707,7 +758,7 @@ class SellMobiles extends Component {
 
     const gadget_details_7 = (
       <div id="gadget_details_7" className="gadget_detail">
-        <div className="sell_phone_heading">
+        <div className="">
           <Typography variant="h4" gutterBottom component="p">
             Functional or Physical Problems if any ?
           </Typography>
@@ -943,7 +994,7 @@ class SellMobiles extends Component {
 
     const gadget_details_8 = (
       <div id="gadget_details_8" className="gadget_detail">
-        <div className="sell_phone_heading">
+        <div className="">
           <Typography variant="h4" component="p" gutterBottom>
             Just one more step to get the phone price
           </Typography>
