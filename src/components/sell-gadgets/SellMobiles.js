@@ -142,11 +142,13 @@ class SellMobiles extends Component {
 
   handleSelectBrand(option) {
     this.setState({ brand: option.value });
+    this.gd_click("brand", option.value);
     setTimeout(this.slider.slickNext(), 1000);
   }
 
   handleSelectModel(option) {
     this.setState({ model: option.value });
+    this.gd_click("model", option.value);
     setTimeout(this.slider.slickNext(), 1000);
   }
 
