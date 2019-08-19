@@ -191,9 +191,9 @@
   border: 1px solid #ef6c00;
 }
 
-/*.slick-dots {
+.slick-dots {
   pointer-events: none;
-}*/
+}
 
 .slick-dots li {
   width: 8px;
