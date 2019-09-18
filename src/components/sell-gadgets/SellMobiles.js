@@ -143,13 +143,11 @@ class SellMobiles extends Component {
   handleSelectBrand(option) {
     this.setState({ brand: option.value });
     this.gd_click("brand", option.value);
-    setTimeout(this.slider.slickNext(), 1000);
   }
 
   handleSelectModel(option) {
     this.setState({ model: option.value });
     this.gd_click("model", option.value);
-    setTimeout(this.slider.slickNext(), 1000);
   }
 
   prevSlide() {
@@ -353,7 +351,7 @@ class SellMobiles extends Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       arrows: false,
-      adaptiveHeight: false,
+      adaptiveHeight: true,
       draggable: false,
       vertical: true
     };
@@ -404,11 +402,11 @@ class SellMobiles extends Component {
           />
         </div>
         <div id="selection1" className="selection">
-          <Scrollbars style={{ height: "500px" }} autoHide>
+          {/*<Scrollbars style={{ height: "500px" }} autoHide>*/}
             <div className="pseudoContainer">
               <div className="row">{mobile_data}</div>
             </div>
-          </Scrollbars>
+          {/*</Scrollbars>*/}
         </div>
       </div>
     );
@@ -460,11 +458,11 @@ class SellMobiles extends Component {
           />
         </div>
         <div id="selection2" className="selection">
-          <Scrollbars style={{ height: "500px" }} autoHide>
+          {/*<Scrollbars style={{ height: "500px" }} autoHide>*/}
             <div className="pseudoContainer">
               <div className="row">{phone_data}</div>
             </div>
-          </Scrollbars>
+          {/*</Scrollbars>*/}
         </div>
       </div>
     );
@@ -624,7 +622,7 @@ class SellMobiles extends Component {
           </Typography>
         </div>
         <div id="selection5" className="selection">
-          <Scrollbars style={{ height: "500px" }} autoHide>
+          {/*<Scrollbars style={{ height: "500px" }} autoHide>*/}
             <div className="pseudoContainer">
               <div className="row">
                 <div className="col s12 m5">
@@ -686,7 +684,7 @@ class SellMobiles extends Component {
                 </div>
               </div>
             </div>
-          </Scrollbars>
+          {/*</Scrollbars>*/}
         </div>
       </div>
     );
@@ -769,7 +767,7 @@ class SellMobiles extends Component {
           </Typography>
         </div>
         <div id="selection7" className="selection">
-          <Scrollbars style={{ height: "500px" }} autoHide>
+          {/*<Scrollbars style={{ height: "500px" }} autoHide>*/}
             <div className="pseudoContainer">
               <div className="row">
                 <div className="col s6 m4 l3">
@@ -989,7 +987,7 @@ class SellMobiles extends Component {
                 </div>
               </div>
             </div>
-          </Scrollbars>
+          {/*</Scrollbars>*/}
         </div>
       </div>
     );

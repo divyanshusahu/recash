@@ -279,9 +279,9 @@ hr {
   border: 1px solid #ef6c00;
 }
 
-.sliders_div {
-  height: 600px;
-}
+/*.sliders_div {
+  min-height: 800px;
+}*/
 
 .bookAppointmentNavbar {
   background: #ff9100;
